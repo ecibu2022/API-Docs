@@ -7,7 +7,7 @@ info:
     
     ### Documentation Options
     - This site is powered by **Stoplight Elements** for a premium documentation experience.
-    - Security is handled via **OAuth 2.0 (Client Credentials)**.
+    - Security is handled via **HTTP Bearer token**. Auth is managed through the custom UI at the top of the documentation for session persistence.
   version: 1.0.0
 servers:
   - url: https://api.businesscentral.dynamics.com/v2.0/ea1cb602-3500-4200-9f29-6524e1209b50/VET/ODataV4
@@ -55,14 +55,11 @@ paths:
                     type: string
                     description: Stringified JSON result
       security:
-        - OAuth2: []
+        - BearerAuth: []
 
 components:
   securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://login.microsoftonline.com/ea1cb602-3500-4200-9f29-6524e1209b50/oauth2/v2.0/token
-          scopes:
-            https://api.businesscentral.dynamics.com/.default: Full access to Business Central API
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
