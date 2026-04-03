@@ -1,280 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>VetCentre API Documentation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/swagger-ui.css" />
-    <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Outfit', -apple-system, system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text-main);
-        }
-
-        /* Modern Landing Page Header */
-        header {
-            background: #fff;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-box {
-            background: var(--primary);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.1rem;
-        }
-
-        .brand-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        /* Token Toolbar */
-        .token-toolbar {
-            background: #fff;
-            padding: 1rem 3rem;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .token-label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .token-input {
-            border: 1px solid #e2e8f0;
-            padding: 8px 12px;
-            border-radius: 6px;
-            width: 350px;
-            font-family: inherit;
-            outline: none;
-            font-size: 0.9rem;
-            background: #f1f5f9;
-        }
-
-        .token-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .btn-apply {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-apply:hover { transform: translateY(-1px); }
-
-        /* Swagger Container */
-        .swagger-container {
-            max-width: 1200px;
-            margin: 2rem auto 5rem;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-        }
-
-        /* Swagger UI Overrides for Premium Standard Look */
-        .swagger-ui .topbar { display: none; }
-        .swagger-ui .info .title { font-family: 'Outfit', sans-serif !important; color: var(--text-main); font-size: 2.5rem; }
-        .swagger-ui .opblock { border-radius: 10px !important; margin-bottom: 12px; }
-        .swagger-ui .btn.authorize { background: var(--primary); color: white; border-color: var(--primary); border-radius: 6px; }
-        .swagger-ui select { border-radius: 6px; border: 1px solid #e2e8f0; }
-
-        /* Hide cURL section */
-        .swagger-ui .curl-command { display: none !important; }
-
-        /* Distinct Request & Response Areas */
-        .swagger-ui .opblock-section {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem !important;
-            margin-bottom: 2rem;
-            background: #fff;
-        }
-
-        .swagger-ui .responses-wrapper {
-            background: #fdfdfd;
-            border-top: 2px solid var(--primary);
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: 0 0 8px 8px;
-        }
-
-        .swagger-ui .opblock-body { padding: 0 !important; }
-        .swagger-ui .opblock-section-header { margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
-        .swagger-ui .opblock-section-header h4 { font-weight: 700; color: var(--text-main); }
-
-        /* Rename Execute to Send and Loading into button */
-        .swagger-ui .btn.execute { 
-            font-size: 0 !important; /* Hide "Execute" */
-        }
-        .swagger-ui .btn.execute::before { 
-            content: "Send"; 
-            font-size: 0.85rem !important; 
-            font-weight: 700;
-        }
-
-        /* Hide Loading Bar downstairs and focus on button */
-        .swagger-ui .loading-container { display: none !important; }
-
-        /* Remove application/json fields */
-        .swagger-ui .content-type { display: none !important; }
-        
-        /* Rename Servers to API BASE URL */
-        .swagger-ui .scheme-container .schemes-title { font-size: 0 !important; }
-        .swagger-ui .scheme-container .schemes-title::before { 
-            content: "API BASE URL"; 
-            font-size: 0.85rem !important; 
-            font-weight: 700; 
-            color: var(--text-muted);
-        }
-
-        /* Re-positioning Execute Button to the top row (Summary) */
-        .swagger-ui .opblock-summary { 
-            display: flex !important; 
-            align-items: center !important; 
-            justify-content: space-between !important; 
-            padding-right: 1rem !important;
-        }
-        
-        .swagger-ui .opblock .btn.execute { 
-            display: block !important;
-            margin: 0 !important;
-            padding: 8px 30px !important;
-            background: var(--primary) !important;
-            color: #fff !important;
-            border-radius: 6px !important;
-            position: relative !important;
-            font-size: 0.85rem !important;
-            order: 10 !important;
-        }
-
-        .swagger-ui .opblock-summary-control { flex: 1 1 auto !important; }
-        .swagger-ui .opblock-summary-description { display: none !important; } /* Clean up summary */
-        
-        @media (max-width: 768px) {
-            header, .token-toolbar { padding: 1rem; flex-direction: column; align-items: stretch; gap: 1rem; }
-            .token-input { width: 100%; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>VetCentre API | OpenAPI</title>
+  <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
+  <link rel="icon" type="image/png" href="dist/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="dist/favicon-16x16.png" sizes="16x16" />
+  <style>
+    html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body { margin: 0; background: #fafafa; }
+    
+    /* Token Persistence bar - keeping functionally but making it look standard */
+    .token-bar { background: #333; padding: 10px 40px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: white; font-family: sans-serif; font-size: 13px; }
+    .token-bar input { background: #444; border: 1px solid #555; color: #fff; padding: 4px 8px; border-radius: 4px; width: 300px; outline: none; }
+    .token-bar button { background: #007bff; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; }
+  </style>
 </head>
 <body>
+  <div class="token-bar">
+    <span>Bearer Token:</span>
+    <input type="password" id="tkInput" placeholder="Session Persistence Token...">
+    <button onclick="saveTk()">Save Token</button>
+  </div>
+  
+  <div id="swagger-ui"></div>
 
-    <header>
-        <div class="brand-area">
-            <div class="logo-box">V</div>
-            <div class="brand-text">VetCentre <span style="color:var(--primary)">API Docs</span></div>
-        </div>
-        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:500;">Version 1.0.0</div>
-    </header>
+  <script src="dist/swagger-ui-bundle.js"></script>
+  <script src="dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    function saveTk() {
+      localStorage.setItem('v_auth', document.getElementById('tkInput').value.trim());
+      alert("Token saved. Swagger will now use this for all requests.");
+    }
 
-    <!-- Global Token Entry -->
-    <div class="token-toolbar">
-        <span class="token-label">Auth Token:</span>
-        <input type="password" id="globalToken" class="token-input" placeholder="Bearer Token (Paste here for persistence)">
-        <button onclick="applyToken()" class="btn-apply">Save Token</button>
-        <button onclick="clearToken()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.85rem;">Clear</button>
-    </div>
+    window.onload = function() {
+      document.getElementById('tkInput').value = localStorage.getItem('v_auth') || "";
 
-    <div class="swagger-container">
-        <div id="swagger-ui"></div>
-    </div>
-
-    <script src="dist/swagger-ui-bundle.js"></script>
-    <script src="dist/swagger-ui-standalone-preset.js"></script>
-    <script>
-        // Load persist token
-        window.BT_AUTH = localStorage.getItem('v_auth') || "";
-        if (window.BT_AUTH) document.getElementById('globalToken').value = window.BT_AUTH;
-
-        function applyToken() {
-            const val = document.getElementById('globalToken').value.trim();
-            window.BT_AUTH = val;
-            localStorage.setItem('v_auth', val);
-            alert('Token saved globally.');
+      window.ui = SwaggerUIBundle({
+        url: "openapi.yaml",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout",
+        tryItOutEnabled: true,
+        requestInterceptor: (req) => {
+          const stored = localStorage.getItem('v_auth');
+          if (stored) {
+            req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
+          }
+          return req;
         }
-
-        function clearToken() {
-            window.BT_AUTH = "";
-            localStorage.removeItem('v_auth');
-            document.getElementById('globalToken').value = "";
-        }
-
-        window.onload = function() {
-            window.ui = SwaggerUIBundle({
-                url: "openapi.yaml",
-                dom_id: '#swagger-ui',
-                deepLinking: true,
-                presets: [
-                    SwaggerUIBundle.presets.apis,
-                    SwaggerUIStandalonePreset
-                ],
-                plugins: [
-                    SwaggerUIBundle.plugins.DownloadUrl
-                ],
-                layout: "BaseLayout",
-                tryItOutEnabled: true,
-                requestInterceptor: (req) => {
-                    if (window.BT_AUTH) {
-                        const token = window.BT_AUTH.replace(/^Bearer\s+/i, '');
-                        req.headers['Authorization'] = 'Bearer ' + token;
-                    }
-                    return req;
-                },
-                onComplete: () => {
-                    // Script to move the execute button from body to summary header
-                    setInterval(() => {
-                        const summary = document.querySelector('.opblock-summary');
-                        const execBtn = document.querySelector('.btn.execute');
-                        if (summary && execBtn && !summary.contains(execBtn)) {
-                            summary.appendChild(execBtn);
-                        }
-                    }, 500);
-                }
-            });
-        };
-    </script>
+      });
+    };
+  </script>
 </body>
 </html>
