@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>VetCentre | API Documentation</title>
@@ -9,114 +9,288 @@
     <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
     <style>
         :root {
-            --primary: #3b82f6;
-            --accent: #8b5cf6;
-            --bg-deep: #0f172a;
-            --bg-card: #1e293b;
-            --text-gold: #f59e0b;
-            --text-main: #f8fafc;
+            /* Dark Mode Variables (Default) */
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg-deep: #0a0b10;
+            --bg-card: #161a23;
+            --header-bg: rgba(22, 26, 35, 0.8);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --swagger-invert: invert(0.9) hue-rotate(180deg) brightness(1.1);
+            --accent-glow: rgba(0, 242, 255, 0.2);
         }
 
-        html, body {
-            margin: 0; padding: 0;
+        [data-theme="light"] {
+            --primary: #3b82f6;
+            --secondary: #6366f1;
+            --bg-deep: #f8fafc;
+            --bg-card: #ffffff;
+            --header-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: rgba(0, 0, 0, 0.1);
+            --swagger-invert: none;
+            --accent-glow: rgba(59, 130, 246, 0.1);
+        }
+
+        body {
+            margin: 0;
             background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Outfit', sans-serif;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Glassmorphism Token Bar */
+        /* Premium Header */
         .header-glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 3rem;
-            position: sticky; top: 0; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .brand { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
-        .brand span { color: var(--primary); }
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-        .token-grp { 
-            display: flex; align-items: center; gap: 12px;
-            background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 50px; 
-            border: 1px solid rgba(255,255,255,0.1); 
+        .brand {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .token-grp label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
-        .token-grp input { 
-            background: transparent; border: none; color: #fff; padding: 4px; width: 220px; 
-            font-family: 'Fira Code', monospace; outline: none; font-size: 12px;
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
-        .btn-glow {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white; border: none; padding: 6px 20px; border-radius: 50px;
-            font-weight: 700; font-size: 12px; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+
+        .auth-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] .auth-bar {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-bar label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        #tokenInput {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            width: 250px;
+            outline: none;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: 0.3s;
         }
-        .btn-glow:hover { transform: scale(1.05); filter: brightness(1.2); }
 
-        /* Swagger UI Custom Styles (Dark Theme Upgrade) */
-        .swagger-ui { filter: invert(88%) hue-rotate(180deg) brightness(1.1); max-width: 1200px; margin: 2rem auto; border-radius: 16px; overflow: hidden; padding: 2rem; background: #fff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        
-        /* Un-invert images and code blocks for readability */
-        .swagger-ui .topbar, .swagger-ui .info, .swagger-ui .opblock, .swagger-ui .btn, .swagger-ui .scheme-container { filter: invert(0) !important; }
-        
-        /* Better scrollbars */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
 
-        @media (max-width: 768px) {
-            .header-glass { flex-direction: column; gap: 1rem; padding: 1rem; }
-            .token-grp input { width: 100%; }
+        /* Swagger UI Styling */
+        #swagger-ui {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .swagger-ui {
+            filter: var(--swagger-invert);
+            transition: filter 0.3s ease;
+        }
+
+        /* Essential UI Overrides for Dark Mode Inversion */
+        [data-theme="dark"] .swagger-ui .opblock, 
+        [data-theme="dark"] .swagger-ui .btn, 
+        [data-theme="dark"] .swagger-ui .info, 
+        [data-theme="dark"] .swagger-ui .model-box, 
+        [data-theme="dark"] .swagger-ui .responses-table,
+        [data-theme="dark"] .swagger-ui .parameter__name,
+        [data-theme="dark"] .swagger-ui .parameter__type,
+        [data-theme="dark"] .swagger-ui select {
+            filter: invert(0) !important;
+        }
+
+        /* Global Swagger UI Fixes (Light and Dark) */
+        .swagger-ui .btn.execute {
+            background-color: var(--primary) !important;
+            color: #fff !important;
+            border: none !important;
+            font-weight: 700 !important;
+            border-radius: 8px !important;
+            text-transform: uppercase;
+            padding: 10px 30px;
+        }
+
+        [data-theme="dark"] .swagger-ui .btn.execute {
+            background-color: transparent !important;
+            color: var(--primary) !important;
+            border: 2px solid var(--primary) !important;
+        }
+
+        .swagger-ui .btn.execute span { display: none; }
+        .swagger-ui .btn.execute::after { content: "SEND REQUEST"; }
+
+        .swagger-ui .servers, .swagger-ui .schemes { display: none; }
+
+        @media (max-width: 900px) {
+            .header-glass { flex-direction: column; height: auto; gap: 15px; padding: 20px; }
+            #tokenInput { width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <header class="header-glass">
-        <div class="brand">VetCentre <span>API Docs</span></div>
-        <div class="token-grp">
-            <label>Bearer Token</label>
-            <input type="password" id="tk" placeholder="Session Persistence Token...">
-            <button class="btn-glow" onclick="save()">SAVE</button>
+        <div class="brand-section">
+            <div class="brand">VETCENTRE <span>API</span></div>
+        </div>
+        <div class="controls">
+            <div class="auth-bar">
+                <label for="tokenInput">Auth</label>
+                <input type="text" id="tokenInput" placeholder="Session Token...">
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+                <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Sun Icon (Default for Light) -->
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
         </div>
     </header>
 
-    <div class="swagger-ui">
-        <div id="swagger-ui"></div>
-    </div>
+    <div id="swagger-ui"></div>
 
     <script src="dist/swagger-ui-bundle.js"></script>
     <script src="dist/swagger-ui-standalone-preset.js"></script>
     <script>
-        function save() {
-            localStorage.setItem('v_auth', document.getElementById('tk').value.trim());
-            alert('Settings Saved Successfully');
-        }
-
         window.onload = function() {
-            document.getElementById('tk').value = localStorage.getItem('v_auth') || "";
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const tokenInput = document.getElementById('tokenInput');
 
+            // --- Theme Switcher Logic ---
+            const toggleTheme = () => {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                setTheme(next);
+            };
+
+            const setTheme = (theme) => {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('v_theme', theme);
+                updateThemeIcon(theme);
+            };
+
+            const updateThemeIcon = (theme) => {
+                if (theme === 'dark') {
+                    // Switch to Moon Icon
+                    themeIcon.innerHTML = `
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    `;
+                } else {
+                    // Switch to Sun Icon
+                    themeIcon.innerHTML = `
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    `;
+                }
+            };
+
+            // Init Theme
+            const savedTheme = localStorage.getItem('v_theme') || 'dark';
+            setTheme(savedTheme);
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // --- Auth Logic ---
+            tokenInput.value = localStorage.getItem('v_auth') || '';
+            tokenInput.addEventListener('input', (e) => {
+                localStorage.setItem('v_auth', e.target.value.trim());
+            });
+
+            // --- Swagger UI Init ---
             window.ui = SwaggerUIBundle({
                 url: "openapi.yaml",
                 dom_id: '#swagger-ui',
                 deepLinking: true,
-                presets: [
-                    SwaggerUIBundle.presets.apis,
-                    SwaggerUIStandalonePreset
-                ],
-                plugins: [
-                    SwaggerUIBundle.plugins.DownloadUrl
-                ],
+                presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+                plugins: [SwaggerUIBundle.plugins.DownloadUrl],
                 layout: "BaseLayout",
-                tryItOutEnabled: true,
                 requestInterceptor: (req) => {
                     const stored = localStorage.getItem('v_auth');
                     if (stored) {
                         req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
+                    }
+                    
+                    const baseEndpoint = '/ClientHandler_RequestJson';
+                    const queryIndex = req.url.indexOf('?');
+                    let pathPart = queryIndex !== -1 ? req.url.substring(0, queryIndex) : req.url;
+                    const queryPart = queryIndex !== -1 ? req.url.substring(queryIndex) : '';
+
+                    if (pathPart.includes(baseEndpoint + '/')) {
+                        pathPart = pathPart.split(baseEndpoint + '/')[0] + baseEndpoint;
+                        req.url = pathPart + queryPart;
                     }
                     return req;
                 }
