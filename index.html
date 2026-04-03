@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetCentre API Docs</title>
   
-  <!-- Modern Typography (Roboto or Outfit) -->
+  <!-- Modern Typography (Roboto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -15,12 +15,12 @@
   
   <style>
     :root {
-      --primary: #007bff; /* Standard Blue */
+      --primary: #007bff;
       --bg: #ffffff;
-      --sidebar-bg: #f8f9fa;
-      --border: #dee2e6;
-      --text: #212529;
-      --text-muted: #6c757d;
+      --sidebar-bg: #fff;
+      --border: #e6e6e6;
+      --text: #333;
+      --text-muted: #666;
     }
 
     body {
@@ -29,191 +29,227 @@
       font-family: 'Roboto', sans-serif;
       background: var(--bg);
       color: var(--text);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      line-height: 1.5;
     }
 
-    /* Fixed Header */
-    .nav-bar {
+    /* Fixed Top Nav (Swagger.io Style) */
+    .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 40px;
+      padding: 10px 60px;
       border-bottom: 1px solid var(--border);
-      background: white;
+      background: #fff;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
-    .brand {
-      font-size: 1.25rem;
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-logo {
       font-weight: 700;
+      font-size: 1.2rem;
       color: #000;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .brand span {
-      background: var(--primary);
+    .nav-logo span {
+      background: #49cc90; /* Swagger Green */
       color: white;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
-    /* Auth Bar */
-    .token-bar {
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #000; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      padding: 6px 15px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .btn-filled {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Token Bar (Integrated but subtle) */
+    .token-section {
+      background: #f9f9f9;
+      padding: 8px 60px;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 10px;
-      background: white;
-      padding: 10px 40px;
-      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
     }
 
     .token-input {
       border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      width: 400px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      width: 350px;
       outline: none;
     }
 
-    .token-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
-    }
+    .token-input:focus { border-color: #49cc90; }
 
-    .btn-apply {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.85rem;
-    }
-
-    /* Main Layout */
-    .main-layout {
-      display: flex;
-      flex: 1;
-      max-width: 1400px;
+    /* Main Grid Layout */
+    .content-container {
+      max-width: 1300px;
       margin: 0 auto;
-      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 40px;
+      padding: 0 60px;
     }
 
-    /* Left Sidebar (Mimicking Table of Contents) */
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
+    /* Main Area */
+    .main-content {
+      padding-top: 40px;
+      min-width: 0;
     }
 
-    .sidebar-section h4 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
+    /* Right Sidebar (Table of Contents) */
+    .toc-sidebar {
+      padding-top: 40px;
+      position: sticky;
+      top: 100px; /* Below Top Nav + Token Bar */
+      height: fit-content;
     }
 
-    .sidebar-link {
-      display: block;
-      color: var(--text);
-      text-decoration: none;
+    .toc-title {
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-left: 1px solid #eee;
+    }
+
+    .toc-item {
+      padding: 4px 0 4px 20px;
       font-size: 0.9rem;
-      padding: 5px 0;
-      transition: color 0.2s;
+      color: #777;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
     }
 
-    .sidebar-link:hover {
-      color: var(--primary);
-    }
+    .toc-item:hover { color: #000; border-left: 2px solid #000; padding-left: 19px; }
+    .toc-item.active { color: #000; font-weight: 600; border-left: 2px solid #000; padding-left: 19px; }
 
-    .sidebar-link.active {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    /* Documentation Content */
-    #swagger-ui {
-      flex: 1;
-      padding: 0 20px 100px;
-    }
-
-    /* Swagger UI Overrides for clean look */
+    /* Swagger UI Integration */
+    #swagger-ui { padding-bottom: 100px; }
     .swagger-ui .topbar { display: none; }
-    .swagger-ui .info { margin-top: 40px; }
-    .swagger-ui .info .title { font-size: 2.2rem; font-weight: 700; color: #000; }
-    .swagger-ui .info .description { font-size: 1.1rem; line-height: 1.6; color: #444; }
-    .swagger-ui .scheme-container { background: transparent; box-shadow: none; padding: 20px 0; border-bottom: 1px solid var(--border); }
-    .swagger-ui .opblock { border-radius: 8px; border: 1px solid var(--border); box-shadow: none; background: #fff; margin-bottom: 12px; }
-    .swagger-ui .opblock-summary { border-bottom: none; }
+    .swagger-ui .info { margin-bottom: 0; }
+    .swagger-ui .info .title { font-size: 2.2rem; font-weight: 700; }
+    .swagger-ui .opblock { border-radius: 4px; box-shadow: none; border: 1px solid #e6e6e6; }
+    .swagger-ui .scheme-container { background: transparent; box-shadow: none; padding: 20px 0; border-bottom: 1px solid #eee; }
 
     /* Mobile adjustments */
     @media (max-width: 900px) {
-      .sidebar { display: none; }
+      .content-container { grid-template-columns: 100%; padding: 0 20px; }
+      .toc-sidebar { display: none; }
+      .top-nav { padding: 10px 20px; }
+      .token-section { padding: 8px 20px; flex-direction: column; align-items: stretch; }
       .token-input { width: 100%; }
-      .token-bar { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Nav -->
-  <nav class="nav-bar">
-    <div class="brand">
-      VetCentre Documentation <span>API</span>
+  <!-- Top Nav mimicking Swagger.io -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="nav-logo">
+        VetCentre <span>Documentation</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#">Products</a>
+        <a href="#">Community</a>
+        <a href="#">Learn</a>
+        <a href="#">Resources</a>
+      </nav>
     </div>
-    <div style="font-size: 0.85rem; color: var(--text-muted);">v1.0.0</div>
-  </nav>
+    <div class="nav-right">
+      <button class="btn-outline">Sign In</button>
+      <button class="btn-filled">Get started</button>
+    </div>
+  </header>
 
-  <!-- Persistent Token Bar -->
-  <div class="token-bar">
-    <span style="font-size: 0.9rem; font-weight: 600;">Token:</span>
+  <!-- Auth Bar -->
+  <div class="token-section">
+    <span style="font-weight: 600;">Token:</span>
     <input type="password" id="tokenInput" class="token-input" placeholder="Paste your Bearer Token here...">
-    <button onclick="updateToken()" class="btn-apply">Save Token</button>
-    <button onclick="clearToken()" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 0.8rem;">Clear</button>
+    <button onclick="updateToken()" class="btn-outline" style="border-color: #49cc90; color: #49cc90; background: transparent;">Save</button>
+    <button onclick="clearToken()" style="background: none; border:none; color: #999; cursor:pointer;">Clear</button>
   </div>
 
-  <div class="main-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-section">
-        <h4>Getting Started</h4>
-        <a href="#" class="sidebar-link active">Documentation Overview</a>
-        <a href="#" class="sidebar-link">Authentication Guide</a>
-      </div>
-      <div class="sidebar-section">
-        <h4>Core Resources</h4>
-        <a href="#/Auth/post_ClientHandler_RequestJson" class="sidebar-link">Client Handler Endpoint</a>
-        <a href="#" class="sidebar-link">Common Error Codes</a>
-      </div>
-      <div class="sidebar-section">
-        <h4>Support</h4>
-        <a href="mailto:support@vetcentre.com" class="sidebar-link">Contact Support</a>
-      </div>
-    </aside>
+  <div class="content-container">
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div id="swagger-ui"></div>
+    </main>
 
-    <!-- UI Content -->
-    <main id="swagger-ui"></main>
+    <!-- Right Sidebar (Table of Contents) -->
+    <aside class="toc-sidebar">
+      <div class="toc-title">Table of Contents</div>
+      <nav class="toc-list">
+        <a href="#" class="toc-item">Overview</a>
+        <a href="#" class="toc-item">Approaches to API</a>
+        <a href="#/Auth/post_ClientHandler_RequestJson" class="toc-item active">Core: Client Handler</a>
+        <a href="#" class="toc-item">Common Scenarios</a>
+        <a href="#" class="toc-item">OAuth Token Flow</a>
+        <a href="#" class="toc-item">OAS Generation</a>
+        <a href="#" class="toc-item">Documenting with OAS</a>
+        <a href="#" class="toc-item">API Design</a>
+      </nav>
+    </aside>
   </div>
 
   <script src="dist/swagger-ui-bundle.js"></script>
   <script src="dist/swagger-ui-standalone-preset.js"></script>
   <script>
-    // Token Management
+    // Token Logic
     window.BEARER_TOKEN = localStorage.getItem('bt_auth_token') || "";
     if (window.BEARER_TOKEN) {
       document.getElementById('tokenInput').value = window.BEARER_TOKEN;
@@ -223,7 +259,7 @@
       const val = document.getElementById('tokenInput').value.trim();
       window.BEARER_TOKEN = val;
       localStorage.setItem('bt_auth_token', val);
-      alert('Token saved! All requests will now use this token.');
+      alert('Token applied successfully.');
     }
 
     function clearToken() {
