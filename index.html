@@ -4,17 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetCentre | Postman</title>
-  
-  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Swagger UI default styles -->
   <link rel="stylesheet" href="dist/swagger-ui.css" />
   
   <style>
-    /* Design Tokens for Light/Dark Mode */
     :root {
       --bg-main: #ffffff;
       --bg-sidebar: #f2f2f2;
@@ -25,9 +20,7 @@
       --text-muted: #6b6b6b;
       --postman-orange: #ff6c37;
       --postman-blue: #097bed;
-      --header-height: 50px;
       --sidebar-width: 280px;
-      --syntax-bg: #f8f8f8;
     }
 
     [data-theme='dark'] {
@@ -38,234 +31,185 @@
       --border: #333333;
       --text-main: #e6e6e6;
       --text-muted: #969696;
-      --syntax-bg: #1e1e1e;
     }
 
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Inter', sans-serif;
       background: var(--bg-main);
       color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      transition: background 0.2s, color 0.2s;
+      display: flex; flex-direction: column;
+      height: 100vh; overflow: hidden;
     }
 
     /* Top Utility Bar */
     .top-toolbar {
-      height: var(--header-height);
-      background: var(--bg-sidebar);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-    }
-
-    .toolbar-left { display: flex; align-items: center; gap: 12px; }
-    .logo-p { background: var(--postman-orange); color: white; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
-    
-    .toolbar-right { display: flex; align-items: center; gap: 12px; }
-    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; }
-
-    /* Layout Wrapper */
-    .app-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* Sidebar mimicking the screenshot */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      font-size: 13px;
-    }
-
-    .sidebar-header { padding: 16px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-    .nav-tree { flex: 1; overflow-y: auto; }
-    .tree-item { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; transition: background 0.2s; }
-    .tree-item:hover { background: rgba(0,0,0,0.05); }
-    [data-theme='dark'] .tree-item:hover { background: rgba(255,255,255,0.05); }
-    .tree-item.active { background: rgba(255,108,55,0.1); color: var(--postman-orange); font-weight: 600; }
-    .tag-post { color: #ffb400; font-weight: 800; font-size: 10px; width: 35px; }
-
-    /* Main Workspace */
-    .workspace {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Tabs Bar */
-    .tabs-bar {
       height: 40px;
       background: var(--bg-sidebar);
-      display: flex;
-      align-items: flex-end;
-      padding: 0 8px;
       border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; padding: 0 16px;
     }
-    .tab {
-      height: 32px;
-      padding: 0 16px;
-      background: var(--bg-tab);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      color: var(--text-muted);
-      border-radius: 4px 4px 0 0;
-      margin-right: 4px;
-    }
+
+    .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 12px; }
+    .logo-p { background: var(--postman-orange); color: white; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+
+    /* Main Container */
+    .app-container { display: flex; flex: 1; overflow: hidden; }
+
+    /* Sidebar */
+    .sidebar { width: var(--sidebar-width); background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; font-size: 12px; }
+    .sidebar-header { padding: 12px 16px; font-weight: 700; color: var(--text-muted); font-size: 11px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .tree-item { display: flex; align-items: center; gap: 8px; padding: 8px 16px; cursor: pointer; color: var(--text-muted); }
+    .tree-item.active { background: rgba(255,108,55,0.1); color: var(--postman-orange); font-weight: 600; }
+    .tag-post { color: #ffb400; font-weight: 800; font-size: 9px; width: 35px; }
+
+    /* Workspace Area */
+    .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    
+    /* Tabs Bar */
+    .tabs-bar { height: 36px; background: var(--bg-sidebar); display: flex; align-items: flex-end; padding: 0 8px; border-bottom: 1px solid var(--border); }
+    .tab { height: 28px; padding: 0 12px; background: var(--bg-tab); border: 1px solid var(--border); border-bottom: none; display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-muted); border-radius: 4px 4px 0 0; margin-right: 4px; }
     .tab.active { background: var(--bg-active-tab); color: var(--text-main); border-top: 2px solid var(--postman-orange); }
 
-    /* Response/Request Area */
-    .main-editor {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 40px;
-    }
-
-    /* Breadcrumbs */
-    .breadcrumbs { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
-    .breadcrumbs span:last-child { color: var(--text-main); font-weight: 600; }
-
-    /* Env/Auth Bar mimicking the Right side of Postman */
-    .env-auth-bar {
-      padding: 12px 16px;
+    /* Request Editor Header (Action Section) */
+    .request-action-bar {
+      padding: 16px 24px;
       background: var(--bg-active-tab);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-    }
-    .auth-pills { display: flex; align-items: center; background: var(--bg-sidebar); border-radius: 4px; padding: 2px 8px; border: 1px solid var(--border); font-size: 11px; }
-
-    /* Swagger Customizations */
-    .swagger-ui .topbar { display: none; }
-    .swagger-ui .info { margin-bottom: 24px; padding: 0; }
-    .swagger-ui .info .title { font-size: 24px; font-weight: 700; color: var(--text-main) !important; }
-    .swagger-ui .opblock { border-radius: 4px; border: 1px solid var(--border) !important; box-shadow: none !important; background: var(--bg-active-tab) !important; }
-    .swagger-ui .opblock-summary { border-bottom: 1px solid var(--border) !important; }
-    .swagger-ui section.models { background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 4px; }
-    .swagger-ui .btn.execute { background-color: var(--postman-blue) !important; }
-
-    /* Token Injection UI */
-    .token-inline-input {
-      background: var(--bg-sidebar);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      outline: none;
-      width: 250px;
+      display: flex; flex-direction: column; gap: 12px;
     }
 
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
+    .breadcrumbs { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .breadcrumbs-active { color: var(--text-main); font-weight: 600; }
+
+    .url-bar-container { display: flex; gap: 8px; align-items: stretch; }
+    .method-tag { background: rgba(255,180,0,0.1); color: #ffb400; font-weight: 700; padding: 0 12px; height: 32px; display: flex; align-items: center; border-radius: 4px; font-size: 12px; border: 1px solid rgba(255,180,0,0.2); }
+    .url-input { flex: 1; border: 1px solid var(--border); background: var(--bg-sidebar); color: var(--text-main); padding: 0 12px; border-radius: 4px; font-size: 13px; font-family: 'Fira Code', monospace; outline: none; }
+    .btn-send { background: var(--postman-blue); color: white; border: none; padding: 0 20px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: filter 0.2s; }
+    .btn-send:hover { filter: brightness(1.1); }
+
+    /* Request Tabs (Body, Auth, etc.) */
+    .request-tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .request-tab { padding: 8px 0; font-size: 12px; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
+    .request-tab.active { border-bottom-color: var(--postman-orange); color: var(--text-main); font-weight: 600; }
+
+    /* Main Area for Swagger UI content only */
+    .editor-body { flex: 1; overflow-y: auto; padding: 0 24px 100px; }
+
+    /* Hiding Redundant Swagger UI Elements */
+    .swagger-ui .topbar, .swagger-ui .info, .swagger-ui .scheme-container { display: none !important; }
+    .swagger-ui .opblock .opblock-summary { display: none !important; } /* Hide the summary bar as we have our own method/URL header */
+    .swagger-ui .opblock { border: none !important; background: transparent !important; box-shadow: none !important; }
+    .swagger-ui .opblock-section-header { display: none !important; }
+    .swagger-ui .btn.execute { display: none !important; } /* Hide Execute as we use Send */
+    .swagger-ui .opblock-body { padding: 0 !important; }
+    .swagger-ui .tab { border: none !important; border-bottom: 2px solid transparent !important; color: var(--text-muted) !important; font-weight: 500 !important; }
+    .swagger-ui .tab.active { border-bottom: 2px solid var(--postman-orange) !important; color: var(--text-main) !important; }
+    .swagger-ui .response-col_status { color: #49cc90; font-weight: 700; }
+
+    /* Dark Mode specific overrides for Swagger UI */
+    [data-theme='dark'] .swagger-ui .opblock-description-wrapper p { color: #999; }
+    [data-theme='dark'] .swagger-ui .parameter__name { color: #e6e6e6; }
+    [data-theme='dark'] .swagger-ui h4.opblock-title { color: #ff6c37; }
+    [data-theme='dark'] .swagger-ui table thead tr th { color: #999; }
+    [data-theme='dark'] .swagger-ui .response-col_description { color: #e6e6e6; }
+    [data-theme='dark'] .swagger-ui section.models { background: #1a1a1a; border-color: #333; }
+    [data-theme='dark'] .swagger-ui .model-title { color: #ff6c37; }
+
+    /* Auth persistence pill */
+    .auth-badge { font-size: 10px; background: rgba(73,204,144,0.1); color: #49cc90; border: 1px solid rgba(73,204,144,0.2); padding: 2px 6px; border-radius: 4px; }
   </style>
 </head>
 <body data-theme="dark">
 
-  <!-- Top Navigation (Utilities) -->
   <nav class="top-toolbar">
     <div class="toolbar-left">
       <div class="logo-p">P</div>
-      <div style="font-weight: 600; font-size: 13px;">VetCentre | Workspace</div>
+      <div style="font-weight: 600; font-size: 12px; color: var(--text-muted);">Home / <span style="color: var(--text-main);">VetCentre Workspace</span></div>
     </div>
     <div class="toolbar-right">
-      <div class="auth-pills">
-        <span style="color: var(--text-muted); margin-right: 8px;">Token:</span>
-        <input type="password" id="tokenInput" class="token-inline-input" placeholder="Enter Bearer Token..." onchange="updateToken()" />
-      </div>
-      <button class="theme-toggle" onclick="toggleTheme()">☀️ Toggle Light Mode</button>
+      <button style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 16px;" onclick="toggleTheme()">🌓</button>
+      <div class="auth-badge">AUTHENTICATED</div>
     </div>
   </nav>
 
   <div class="app-container">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">Collections</div>
-      <div class="nav-tree">
-        <div class="tree-item">📂 <strong>VetCentre API</strong></div>
-        <div class="tree-item" style="padding-left: 32px;">📂 <strong>Auth</strong></div>
-        <div class="tree-item active" style="padding-left: 48px;">
-          <span class="tag-post">POST</span>
-          <span>login</span>
-        </div>
-        
-        <div class="sidebar-header" style="margin-top: 24px;">Environments</div>
-        <div class="tree-item">🌐 Production VET</div>
+      <div class="tree-item">📂 <strong>VetCentre</strong></div>
+      <div class="tree-item active" style="padding-left: 24px;">
+        <span class="tag-post">POST</span>
+        <span>login</span>
       </div>
+      <div class="sidebar-header" style="margin-top: 20px;">Environments</div>
+      <div class="tree-item">🌐 Production (Business Central)</div>
     </aside>
 
-    <!-- Main Content Area -->
     <main class="workspace">
-      <!-- Tabs -->
       <div class="tabs-bar">
-        <div class="tab"><span>🏠 Home</span></div>
+        <div class="tab"><span>📁 Overview</span></div>
         <div class="tab active">
-          <span style="color: #ffb400; font-weight: 900; font-size: 9px;">POST</span>
+          <span style="color: #ffb400; font-weight: 800; font-size: 9px;">POST</span>
           <span>login</span>
-          <span style="margin-left: 8px; font-size: 14px;">×</span>
+          <span style="margin-left: 8px; opacity: 0.5;">×</span>
         </div>
         <div class="tab">+</div>
       </div>
 
-      <!-- Content -->
-      <div class="main-editor">
+      <!-- Action Bar echoing the screenshot -->
+      <header class="request-action-bar">
         <div class="breadcrumbs">
-          VetCentre / auth / <span>login</span>
+          VetCentre / auth / <span class="breadcrumbs-active">login</span>
+        </div>
+        
+        <div class="url-bar-container">
+          <div class="method-tag">POST</div>
+          <input type="text" class="url-input" id="urlInput" value="{{BC_API_URL}}/ClientHandler_RequestJson?company=VetCentre" />
+          <button class="btn-send" onclick="triggerExecute()">Send</button>
         </div>
 
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="request-tabs">
+            <div class="request-tab">Params</div>
+            <div class="request-tab">Authorization</div>
+            <div class="request-tab">Headers <span style="font-size: 10px; background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 4px;">1</span></div>
+            <div class="request-tab active">Body</div>
+            <div class="request-tab">Settings</div>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            Token: <input type="password" id="tokenInput" style="border:none; background: var(--bg-sidebar); border-radius: 3px; padding: 2px 5px; width: 150px; font-size: 10px;" placeholder="Auth Token..." onchange="updateToken()" />
+          </div>
+        </div>
+      </header>
+
+      <section class="editor-body">
         <div id="swagger-ui"></div>
-      </div>
+      </section>
     </main>
   </div>
 
   <script src="dist/swagger-ui-bundle.js"></script>
   <script src="dist/swagger-ui-standalone-preset.js"></script>
   <script>
-    // Theme Management
+    function triggerExecute() {
+      // Find the Swagger UI execute button (hidden) and click it
+      const btn = document.querySelector('.btn.execute');
+      if (btn) btn.click();
+      else alert('Please expand the request before sending.');
+    }
+
     function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      body.setAttribute('data-theme', next);
-      localStorage.setItem('doc-theme', next);
-      document.querySelector('.theme-toggle').innerText = next === 'dark' ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode';
+      const b = document.body;
+      b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     }
 
-    // Persist theme
-    const savedTheme = localStorage.getItem('doc-theme') || 'dark';
-    document.body.setAttribute('data-theme', savedTheme);
-    document.querySelector('.theme-toggle').innerText = savedTheme === 'dark' ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode';
-
-    // Auth Persistence
+    // Token management
     window.BEARER_TOKEN = localStorage.getItem('bt_auth_token') || "";
-    if (window.BEARER_TOKEN) {
-      document.getElementById('tokenInput').value = window.BEARER_TOKEN;
-    }
+    if (window.BEARER_TOKEN) document.getElementById('tokenInput').value = window.BEARER_TOKEN;
 
     function updateToken() {
-      const val = document.getElementById('tokenInput').value.trim();
-      window.BEARER_TOKEN = val;
-      localStorage.setItem('bt_auth_token', val);
-      console.log('Token updated from UI');
+      window.BEARER_TOKEN = document.getElementById('tokenInput').value.trim();
+      localStorage.setItem('bt_auth_token', window.BEARER_TOKEN);
     }
 
     window.onload = function() {
@@ -287,6 +231,14 @@
           return req;
         }
       });
+
+      // Auto-expand the Auth section to make it feel like "opening a file" in Postman
+      setTimeout(() => {
+        const opblock = document.querySelector('.opblock-post');
+        if (opblock && !opblock.classList.contains('is-open')) {
+          opblock.querySelector('.opblock-summary').click();
+        }
+      }, 500);
     };
   </script>
 </body>
