@@ -1,250 +1,271 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-    <meta charset="UTF-8">
-    <title>VetCentre | API Documentation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
-    <style>
-        :root {
-            /* Dark Mode Variables (Default) */
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --bg-deep: #0a0b10;
-            --bg-card: #161a23;
-            --header-bg: rgba(22, 26, 35, 0.8);
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-            --swagger-invert: invert(0.9) hue-rotate(180deg) brightness(1.1);
-            --accent-glow: rgba(0, 242, 255, 0.2);
-        }
+  <meta charset="UTF-8">
+  <title>VetCentre | API Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
+  <style>
+    :root {
+      /* Dark Mode Variables (Default) */
+      --primary: #00f2ff;
+      --secondary: #7000ff;
+      --bg-deep: #0a0b10;
+      --bg-card: #161a23;
+      --header-bg: rgba(22, 26, 35, 0.8);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --swagger-invert: invert(0.9) hue-rotate(180deg) brightness(1.1);
+      --accent-glow: rgba(0, 242, 255, 0.2);
+    }
 
-        [data-theme="light"] {
-            --primary: #3b82f6;
-            --secondary: #6366f1;
-            --bg-deep: #f8fafc;
-            --bg-card: #ffffff;
-            --header-bg: rgba(255, 255, 255, 0.8);
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: rgba(0, 0, 0, 0.1);
-            --swagger-invert: none;
-            --accent-glow: rgba(59, 130, 246, 0.1);
-        }
+    [data-theme="light"] {
+      --primary: #3b82f6;
+      --secondary: #6366f1;
+      --bg-deep: #f8fafc;
+      --bg-card: #ffffff;
+      --header-bg: rgba(255, 255, 255, 0.8);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: rgba(0, 0, 0, 0.1);
+      --swagger-invert: none;
+      --accent-glow: rgba(59, 130, 246, 0.1);
+    }
 
-        body {
-            margin: 0;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
-            min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    body {
+      margin: 0;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        /* Premium Header */
-        .header-glass {
-            background: var(--header-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 24px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
+    /* Premium Header */
+    .header-glass {
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
 
-        .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-        .brand {
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.02em;
-            background: linear-gradient(90deg, var(--text-main), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .brand {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--text-main), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-        .auth-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.05);
-            padding: 8px 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
+    .auth-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
 
-        [data-theme="dark"] .auth-bar {
-            background: rgba(0, 0, 0, 0.3);
-        }
+    [data-theme="dark"] .auth-bar {
+      background: rgba(0, 0, 0, 0.3);
+    }
 
-        .auth-bar label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+    .auth-bar label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-        #tokenInput {
-            background: transparent;
-            border: none;
-            color: var(--primary);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            width: 250px;
-            outline: none;
-        }
+    #tokenInput {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      width: 250px;
+      outline: none;
+    }
 
-        /* Theme Toggle Button */
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-        }
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
 
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
 
-        /* Swagger UI Styling */
-        #swagger-ui {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    /* Swagger UI Styling */
+    #swagger-ui {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .swagger-ui {
-            filter: var(--swagger-invert);
-            transition: filter 0.3s ease;
-        }
+    .swagger-ui {
+      filter: var(--swagger-invert);
+      transition: filter 0.3s ease;
+    }
 
-        /* Essential UI Overrides for Dark Mode Inversion */
-        [data-theme="dark"] .swagger-ui .opblock, 
-        [data-theme="dark"] .swagger-ui .btn, 
-        [data-theme="dark"] .swagger-ui .info, 
-        [data-theme="dark"] .swagger-ui .model-box, 
-        [data-theme="dark"] .swagger-ui .responses-table,
-        [data-theme="dark"] .swagger-ui .parameter__name,
-        [data-theme="dark"] .swagger-ui .parameter__type,
-        [data-theme="dark"] .swagger-ui select {
-            filter: invert(0) !important;
-        }
+    /* Essential UI Overrides for Dark Mode Inversion */
+    [data-theme="dark"] .swagger-ui .opblock,
+    [data-theme="dark"] .swagger-ui .btn,
+    [data-theme="dark"] .swagger-ui .info,
+    [data-theme="dark"] .swagger-ui .model-box,
+    [data-theme="dark"] .swagger-ui .responses-table,
+    [data-theme="dark"] .swagger-ui .parameter__name,
+    [data-theme="dark"] .swagger-ui .parameter__type,
+    [data-theme="dark"] .swagger-ui select {
+      filter: invert(0) !important;
+    }
 
-        /* Global Swagger UI Fixes (Light and Dark) */
-        .swagger-ui .btn.execute {
-            background-color: var(--primary) !important;
-            color: #fff !important;
-            border: none !important;
-            font-weight: 700 !important;
-            border-radius: 8px !important;
-            text-transform: uppercase;
-            padding: 10px 30px;
-        }
+    /* Global Swagger UI Fixes (Light and Dark) */
+    .swagger-ui .btn.execute {
+      background-color: var(--primary) !important;
+      color: #fff !important;
+      border: none !important;
+      font-weight: 700 !important;
+      border-radius: 8px !important;
+      text-transform: uppercase;
+      padding: 10px 30px;
+    }
 
-        [data-theme="dark"] .swagger-ui .btn.execute {
-            background-color: transparent !important;
-            color: var(--primary) !important;
-            border: 2px solid var(--primary) !important;
-        }
+    [data-theme="dark"] .swagger-ui .btn.execute {
+      background-color: transparent !important;
+      color: var(--primary) !important;
+      border: 2px solid var(--primary) !important;
+    }
 
-        .swagger-ui .btn.execute span { display: none; }
-        .swagger-ui .btn.execute::after { content: "SEND REQUEST"; }
+    .swagger-ui .btn.execute span {
+      display: none;
+    }
 
-        .swagger-ui .servers, .swagger-ui .schemes { display: none; }
+    .swagger-ui .btn.execute::after {
+      content: "SEND";
+    }
 
-        @media (max-width: 900px) {
-            .header-glass { flex-direction: column; height: auto; gap: 15px; padding: 20px; }
-            #tokenInput { width: 100%; }
-        }
-    </style>
+    .swagger-ui .servers,
+    .swagger-ui .schemes {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .header-glass {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      #tokenInput {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <header class="header-glass">
-        <div class="brand-section">
-            <div class="brand">VETCENTRE <span>API</span></div>
-        </div>
-        <div class="controls">
-            <div class="auth-bar">
-                <label for="tokenInput">Auth</label>
-                <input type="text" id="tokenInput" placeholder="Session Token...">
-            </div>
-            <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
-                <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <!-- Sun Icon (Default for Light) -->
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-            </button>
-        </div>
-    </header>
+  <header class="header-glass">
+    <div class="brand-section">
+      <div class="brand">VET CENTRE <span>API</span></div>
+    </div>
+    <div class="controls">
+      <div class="auth-bar">
+        <label for="tokenInput">Auth</label>
+        <input type="text" id="tokenInput" placeholder="Session Token...">
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+        <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Sun Icon (Default for Light) -->
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
 
-    <div id="swagger-ui"></div>
+  <div id="swagger-ui"></div>
 
-    <script src="dist/swagger-ui-bundle.js"></script>
-    <script src="dist/swagger-ui-standalone-preset.js"></script>
-    <script>
-        window.onload = function() {
-            const html = document.documentElement;
-            const themeToggle = document.getElementById('themeToggle');
-            const themeIcon = document.getElementById('themeIcon');
-            const tokenInput = document.getElementById('tokenInput');
+  <script src="dist/swagger-ui-bundle.js"></script>
+  <script src="dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = function () {
+      const html = document.documentElement;
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const tokenInput = document.getElementById('tokenInput');
 
-            // --- Theme Switcher Logic ---
-            const toggleTheme = () => {
-                const current = html.getAttribute('data-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
-                setTheme(next);
-            };
+      // --- Theme Switcher Logic ---
+      const toggleTheme = () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      };
 
-            const setTheme = (theme) => {
-                html.setAttribute('data-theme', theme);
-                localStorage.setItem('v_theme', theme);
-                updateThemeIcon(theme);
-            };
+      const setTheme = (theme) => {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('v_theme', theme);
+        updateThemeIcon(theme);
+      };
 
-            const updateThemeIcon = (theme) => {
-                if (theme === 'dark') {
-                    // Switch to Moon Icon
-                    themeIcon.innerHTML = `
+      const updateThemeIcon = (theme) => {
+        if (theme === 'dark') {
+          // Switch to Moon Icon
+          themeIcon.innerHTML = `
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     `;
-                } else {
-                    // Switch to Sun Icon
-                    themeIcon.innerHTML = `
+        } else {
+          // Switch to Sun Icon
+          themeIcon.innerHTML = `
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -255,47 +276,48 @@
                         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     `;
-                }
-            };
+        }
+      };
 
-            // Init Theme
-            const savedTheme = localStorage.getItem('v_theme') || 'dark';
-            setTheme(savedTheme);
-            themeToggle.addEventListener('click', toggleTheme);
+      // Init Theme
+      const savedTheme = localStorage.getItem('v_theme') || 'dark';
+      setTheme(savedTheme);
+      themeToggle.addEventListener('click', toggleTheme);
 
-            // --- Auth Logic ---
-            tokenInput.value = localStorage.getItem('v_auth') || '';
-            tokenInput.addEventListener('input', (e) => {
-                localStorage.setItem('v_auth', e.target.value.trim());
-            });
+      // --- Auth Logic ---
+      tokenInput.value = localStorage.getItem('v_auth') || '';
+      tokenInput.addEventListener('input', (e) => {
+        localStorage.setItem('v_auth', e.target.value.trim());
+      });
 
-            // --- Swagger UI Init ---
-            window.ui = SwaggerUIBundle({
-                url: "openapi.yaml",
-                dom_id: '#swagger-ui',
-                deepLinking: true,
-                presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-                plugins: [SwaggerUIBundle.plugins.DownloadUrl],
-                layout: "BaseLayout",
-                requestInterceptor: (req) => {
-                    const stored = localStorage.getItem('v_auth');
-                    if (stored) {
-                        req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
-                    }
-                    
-                    const baseEndpoint = '/ClientHandler_RequestJson';
-                    const queryIndex = req.url.indexOf('?');
-                    let pathPart = queryIndex !== -1 ? req.url.substring(0, queryIndex) : req.url;
-                    const queryPart = queryIndex !== -1 ? req.url.substring(queryIndex) : '';
+      // --- Swagger UI Init ---
+      window.ui = SwaggerUIBundle({
+        url: "openapi.yaml",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+        layout: "BaseLayout",
+        requestInterceptor: (req) => {
+          const stored = localStorage.getItem('v_auth');
+          if (stored) {
+            req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
+          }
 
-                    if (pathPart.includes(baseEndpoint + '/')) {
-                        pathPart = pathPart.split(baseEndpoint + '/')[0] + baseEndpoint;
-                        req.url = pathPart + queryPart;
-                    }
-                    return req;
-                }
-            });
-        };
-    </script>
+          const baseEndpoint = '/ClientHandler_RequestJson';
+          const queryIndex = req.url.indexOf('?');
+          let pathPart = queryIndex !== -1 ? req.url.substring(0, queryIndex) : req.url;
+          const queryPart = queryIndex !== -1 ? req.url.substring(queryIndex) : '';
+
+          if (pathPart.includes(baseEndpoint + '/')) {
+            pathPart = pathPart.split(baseEndpoint + '/')[0] + baseEndpoint;
+            req.url = pathPart + queryPart;
+          }
+          return req;
+        }
+      });
+    };
+  </script>
 </body>
+
 </html>
