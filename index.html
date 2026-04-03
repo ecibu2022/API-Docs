@@ -121,6 +121,30 @@
         .swagger-ui .opblock { border-radius: 10px !important; margin-bottom: 12px; }
         .swagger-ui .btn.authorize { background: var(--primary); color: white; border-color: var(--primary); border-radius: 6px; }
         .swagger-ui select { border-radius: 6px; border: 1px solid #e2e8f0; }
+
+        /* Hide cURL section */
+        .swagger-ui .curl-command { display: none !important; }
+
+        /* Distinct Request & Response Areas */
+        .swagger-ui .opblock-section {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem !important;
+            margin-bottom: 2rem;
+            background: #fff;
+        }
+
+        .swagger-ui .responses-wrapper {
+            background: #fdfdfd;
+            border-top: 2px solid var(--primary);
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .swagger-ui .opblock-body { padding: 0 !important; }
+        .swagger-ui .opblock-section-header { margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
+        .swagger-ui .opblock-section-header h4 { font-weight: 700; color: var(--text-main); }
         
         @media (max-width: 768px) {
             header, .token-toolbar { padding: 1rem; flex-direction: column; align-items: stretch; gap: 1rem; }
