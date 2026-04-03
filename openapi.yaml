@@ -46,7 +46,7 @@ info:
     script |
   version: 1.0.0
 servers:
-  - url: undefined://{{API_BASE_URL}}
+  - url: https://{{API_BASE_URL}}
 tags:
   - name: auth
     description: >-
@@ -61,7 +61,7 @@ tags:
       Central backend. The `flag` field in the `jsonRequest` payload determines
       the operation type.
 paths:
-  /ClientHandler_RequestJson:
+  /ClientHandler_RequestJson/login:
     post:
       tags:
         - auth
@@ -164,3 +164,36 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /ClientHandler_RequestJson/send-verification-code:
+    post:
+      tags:
+        - auth
+      summary: send-verification-code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                jsonRequest: >-
+                  {  "flag": "send-verification-code",  "email":
+                  "mecibu@adroitltd.com"}
+      parameters:
+        - name: company
+          in: query
+          schema:
+            type: string
+          example: Vet%20Centre%20HR%20Training
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
