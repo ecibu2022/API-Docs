@@ -1,0 +1,166 @@
+openapi: 3.0.0
+info:
+  title: VetCentre
+  description: >-
+    # VetCentre API
+
+
+    This collection contains the API requests for the **VetCentre HR Training**
+    system, built on Microsoft Dynamics 365 Business Central.
+
+
+    All requests are routed through the `ClientHandler_RequestJson` endpoint and
+    use a `jsonRequest` payload to specify the operation. Authentication is
+    handled via **OAuth 2.0 Client Credentials** using a Microsoft Entra ID
+    (Azure AD) tenant.
+
+
+    ## Base URL
+
+    `{{API_BASE_URL}}`
+
+
+    ## Authentication
+
+    All requests use OAuth 2.0 with client credentials grant type. The access
+    token is automatically fetched from:
+
+    ```
+
+    https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+
+    ```
+
+    The token is added to the `Authorization` header as a Bearer token.
+
+
+    ## Variables
+
+    | Variable | Description |
+
+    |---|---|
+
+    | `API_BASE_URL` | The base URL for the Business Central OData endpoint |
+
+    | `POSTMAN_API_KEY` | Your Postman API key, used by the auto-documentation
+    script |
+  version: 1.0.0
+servers:
+  - url: undefined://{{API_BASE_URL}}
+tags:
+  - name: auth
+    description: >-
+      ## Auth
+
+
+      Contains authentication-related requests for the VetCentre HR Training
+      system.
+
+
+      These requests handle user identity verification against the Business
+      Central backend. The `flag` field in the `jsonRequest` payload determines
+      the operation type.
+paths:
+  /ClientHandler_RequestJson:
+    post:
+      tags:
+        - auth
+      summary: login
+      description: >-
+        ## Login
+
+
+        Authenticates a user against the VetCentre HR Training system.
+
+
+        ### Endpoint
+
+        `POST
+        {{API_BASE_URL}}/ClientHandler_RequestJson?company=Vet%20Centre%20HR%20Training`
+
+
+        ### Request Body
+
+        The body is a JSON object with a single `jsonRequest` field containing a
+        stringified JSON payload:
+
+
+        ```json
+
+        {
+            "jsonRequest": "{\"flag\": \"login\", \"userNameOrEmail\": \"user@example.com\", \"password\": \"yourpassword\"}"
+        }
+
+        ```
+
+
+        | Field | Type | Description |
+
+        |---|---|---|
+
+        | `flag` | string | Operation identifier. Must be `"login"` for this
+        request |
+
+        | `userNameOrEmail` | string | The user's email address or username |
+
+        | `password` | string | The user's password |
+
+
+        ### Responses
+
+
+        #### 200 OK — Login successful
+
+        ```json
+
+        {
+            "@odata.context": "https://api.businesscentral.dynamics.com/v2.0/ea1cb602-3500-4200-9f29-6524e1209b50/VET/ODataV4/$metadata#Edm.String",
+            "value": "{\"success\":true,\"data\":{\"token\":\"<session_token>\",\"userId\":\"<user_id>\"}}"
+        }
+
+        ```
+
+
+        #### 200 OK — Login failed (account blocked)
+
+        ```json
+
+        {
+            "@odata.context": "https://api.businesscentral.dynamics.com/v2.0/ea1cb602-3500-4200-9f29-6524e1209b50/VET/ODataV4/$metadata#Edm.String",
+            "value": "{\"success\":false,\"data\":{\"message\":\"Your account has been blocked. Contact administrator\"}}"
+        }
+
+        ```
+
+
+        > **Note:** This API always returns HTTP 200. The response body is a
+        Business Central OData envelope. The actual result is inside the `value`
+        field as a stringified JSON string — parse it to check the `success`
+        field.
+
+
+        ### Auto-documentation
+
+        This request includes a post-response test script that automatically
+        saves the latest response as a saved example in the collection, keeping
+        the documentation up to date after every run.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                jsonRequest: >-
+                  {  "flag": "login",  "userNameOrEmail":
+                  "mecibu@adroitltd.com",  "password": "256@Vet!"}
+      parameters:
+        - name: company
+          in: query
+          schema:
+            type: string
+          example: Vet%20Centre%20HR%20Training
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

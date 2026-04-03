@@ -1,4 +1,5 @@
 node_modules
 package-lock.json
-openapi.yaml
-index.html
+# Don't ignore these if we want GitHub Pages
+# openapi.yaml
+# index.html
