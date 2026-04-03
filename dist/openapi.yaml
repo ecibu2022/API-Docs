@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: VetCentre API Documentation
+  description: >-
+    # VetCentre HR Training API
+    This API provides access to the VetCentre HR Training system on Microsoft Dynamics 365 Business Central.
+    
+    ### Documentation Options
+    - This site is powered by **Stoplight Elements** for a premium documentation experience.
+    - Security is handled via **OAuth 2.0 (Client Credentials)**.
+  version: 1.0.0
+servers:
+  - url: https://api.businesscentral.dynamics.com/v2.0/ea1cb602-3500-4200-9f29-6524e1209b50/VET/ODataV4
+    description: Production VET Environment
+tags:
+  - name: Auth
+    description: Authentication operations
+paths:
+  /ClientHandler_RequestJson:
+    post:
+      tags:
+        - Auth
+      summary: Executing JSON requests (Login, etc.)
+      description: >-
+        All operations are routed through this single endpoint. The specific operation is determined by the `flag` inside the `jsonRequest` payload.
+      parameters:
+        - name: company
+          in: query
+          required: true
+          schema:
+            type: string
+            example: Vet Centre HR Training
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jsonRequest:
+                  type: string
+                  description: Stringified JSON payload
+              example:
+                jsonRequest: '{"flag": "login", "userNameOrEmail": "user@example.com", "password": "password123"}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  "@odata.context":
+                    type: string
+                  value:
+                    type: string
+                    description: Stringified JSON result
+      security:
+        - OAuth2: []
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.microsoftonline.com/ea1cb602-3500-4200-9f29-6524e1209b50/oauth2/v2.0/token
+          scopes:
+            https://api.businesscentral.dynamics.com/.default: Full access to Business Central API

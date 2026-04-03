@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCentre API Docs</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Swagger UI default styles -->
+  <link rel="stylesheet" href="dist/swagger-ui.css" />
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(226, 232, 240, 0.5);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+    }
+
+    /* Dark Mode (Optional Support) */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #3b82f6;
+        --primary-hover: #60a5fa;
+        --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --glass-bg: rgba(30, 41, 59, 0.9);
+        --glass-border: rgba(51, 65, 85, 0.5);
+        --text-main: #f1f5f9;
+        --text-muted: #94a3b8;
+      }
+      body {
+        color-scheme: dark;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-main);
+    }
+
+    /* Header & Navigation */
+    .header {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+      animation: slideInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    /* Auth Control Bar */
+    .auth-bar {
+      margin: 20px auto;
+      max-width: 1200px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--glass-bg);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-sm);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .auth-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* Swagger UI Container */
+    #swagger-ui {
+      background: var(--glass-bg);
+      border-radius: var(--radius);
+      margin: 20px auto 100px;
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--glass-border);
+      max-width: 1200px;
+      animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Customizing Swagger UI via CSS variables where possible or overriding */
+    .swagger-ui .topbar { display: none; }
+    .swagger-ui .info { margin: 20px 0; }
+    .swagger-ui .info .title { font-family: 'Outfit', sans-serif !important; color: var(--text-main); }
+    .swagger-ui .opblock { border-radius: 12px !important; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .swagger-ui section.models { border-radius: 12px; overflow: hidden; }
+
+    /* Animations */
+    @keyframes slideInDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .auth-bar { flex-direction: column; align-items: stretch; margin: 20px 10px; }
+      #swagger-ui { margin: 20px 10px 100px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo-area">
+        <div class="logo-icon">V</div>
+        <div class="logo-text">VetCentre <span style="color: var(--primary)">API</span></div>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+        V1.0.0
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Quick Auth Access -->
+    <div class="auth-bar">
+      <span style="font-weight: 600; font-size: 0.9rem; white-space: nowrap;">API Key:</span>
+      <input type="password" id="tokenInput" class="auth-input" placeholder="Bearer Token (Paste your OData token here)">
+      <button onclick="updateToken()" class="btn">Apply</button>
+      <button onclick="clearToken()" class="btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--glass-border);">Clear</button>
+    </div>
+
+    <!-- Swagger UI Render Target -->
+    <div id="swagger-ui"></div>
+  </div>
+
+  <script src="dist/swagger-ui-bundle.js"></script>
+  <script src="dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    // Handle auth persistence
+    window.BEARER_TOKEN = localStorage.getItem('bt_auth_token') || "";
+    if (window.BEARER_TOKEN) {
+      document.getElementById('tokenInput').value = window.BEARER_TOKEN;
+    }
+
+    function updateToken() {
+      const val = document.getElementById('tokenInput').value.trim();
+      window.BEARER_TOKEN = val;
+      localStorage.setItem('bt_auth_token', val);
+      alert('Token applied globally for requests.');
+      // Refresh UI internal state if needed
+      if (window.ui) {
+        // Redraw or notify
+      }
+    }
+
+    function clearToken() {
+      window.BEARER_TOKEN = "";
+      localStorage.removeItem('bt_auth_token');
+      document.getElementById('tokenInput').value = "";
+      alert('Token cleared.');
+    }
+
+    window.onload = function() {
+      window.ui = SwaggerUIBundle({
+        url: "openapi.yaml",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "BaseLayout",
+        tryItOutEnabled: true,
+        requestInterceptor: (req) => {
+          if (window.BEARER_TOKEN) {
+            // Ensure no duplicate Bearer prefix
+            const token = window.BEARER_TOKEN.replace(/^Bearer\s+/i, '');
+            req.headers['Authorization'] = 'Bearer ' + token;
+          }
+          return req;
+        }
+      });
+    };
+  </script>
+</body>
+</html>
