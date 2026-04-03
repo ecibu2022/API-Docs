@@ -146,6 +146,31 @@
         .swagger-ui .opblock-section-header { margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
         .swagger-ui .opblock-section-header h4 { font-weight: 700; color: var(--text-main); }
 
+        /* Rename Execute to Send and Loading into button */
+        .swagger-ui .btn.execute { 
+            font-size: 0 !important; /* Hide "Execute" */
+        }
+        .swagger-ui .btn.execute::before { 
+            content: "Send"; 
+            font-size: 0.85rem !important; 
+            font-weight: 700;
+        }
+
+        /* Hide Loading Bar downstairs and focus on button */
+        .swagger-ui .loading-container { display: none !important; }
+
+        /* Remove application/json fields */
+        .swagger-ui .content-type { display: none !important; }
+        
+        /* Rename Servers to API BASE URL */
+        .swagger-ui .scheme-container .schemes-title { font-size: 0 !important; }
+        .swagger-ui .scheme-container .schemes-title::before { 
+            content: "API BASE URL"; 
+            font-size: 0.85rem !important; 
+            font-weight: 700; 
+            color: var(--text-muted);
+        }
+
         /* Re-positioning Execute Button to the top row (Summary) */
         .swagger-ui .opblock-summary { 
             display: flex !important; 

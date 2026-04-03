@@ -11,7 +11,7 @@ info:
   version: 1.0.0
 servers:
   - url: https://api.businesscentral.dynamics.com/v2.0/ea1cb602-3500-4200-9f29-6524e1209b50/VET/ODataV4
-    description: Production VET Environment
+    description: 
 tags:
   - name: Auth
     description: Authentication operations
