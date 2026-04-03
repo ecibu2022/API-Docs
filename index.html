@@ -1,170 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VetCentre | API Documentation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="dist/swagger-ui.css" />
-  <style>
-    :root {
-      --bg: #1c1c1c;             /* Dark Postman background */
-      --side-bg: #121212;
-      --border: #333;
-      --text: #e6e6e6;
-      --muted: #888;
-      --orange: #ff6c37;
-      --blue: #097bed;
-      --green: #49cc90;
-    }
+    <meta charset="UTF-8">
+    <title>VetCentre API Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/swagger-ui.css" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
 
-    body {
-      margin: 0; padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex; height: 100vh; overflow: hidden;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+        }
 
-    /* Left Navbar */
-    aside {
-      width: 280px; background: var(--side-bg); border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; font-size: 13px;
-    }
-    .side-hdr { padding: 16px; font-weight: 700; color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .side-item { display: flex; align-items: center; gap: 8px; padding: 10px 16px; cursor: pointer; color: #ccc; }
-    .side-item:hover { background: #262626; color: #fff; }
-    .side-item.active { background: #262626; color: #fff; font-weight: 600; border-left: 2px solid var(--orange); }
-    .met-tag { font-weight: 800; font-size: 10px; width: 35px; color: #ffb400; }
+        /* Modern Landing Page Header */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            top: 0;
+            z-index: 100;
+        }
 
-    /* Right Main Layout */
-    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    /* URL Action Bar (The Top Part) */
-    .url-bar {
-      padding: 16px 24px; border-bottom: 1px solid var(--border);
-      display: flex; gap: 12px; align-items: center; background: var(--bg);
-    }
-    .met-sel { 
-      background: #262626; border: 1px solid var(--border); color: #ffb400; 
-      font-weight: 700; height: 36px; border-radius: 4px; padding: 0 12px; font-size: 12px;
-    }
-    .url-in {
-      flex: 1; background: #121212; border: 1px solid var(--border); color: #fff;
-      height: 36px; border-radius: 4px; padding: 0 12px; font-family: 'Fira Code', monospace; font-size: 13px; outline: none;
-    }
-    .btn-send {
-      background: var(--blue); color: white; border: none; padding: 0 24px; height: 36px;
-      border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 14px;
-    }
+        .logo-box {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
 
-    /* Content Area */
-    .content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .brand-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-    /* Request/Response Containers */
-    #swagger-ui { flex: 1; padding: 0 24px 60px; }
+        /* Token Toolbar */
+        .token-toolbar {
+            background: #fff;
+            padding: 1rem 3rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    /* Minimal Design - Removing all Swagger UI noise */
-    .swagger-ui .topbar, .swagger-ui .info, .swagger-ui .scheme-container, 
-    .swagger-ui .opblock .opblock-summary, .swagger-ui .opblock-tag,
-    .swagger-ui .btn.execute, .swagger-ui .btn.try-out__btn { display: none !important; }
+        .token-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
 
-    .swagger-ui .opblock { border: none !important; box-shadow: none !important; background: transparent !important; margin: 0 !important; }
-    .swagger-ui .opblock-body { padding: 0 !important; }
-    .swagger-ui { background: transparent; }
+        .token-input {
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 350px;
+            font-family: inherit;
+            outline: none;
+            font-size: 0.9rem;
+            background: #f1f5f9;
+        }
 
-    /* Auth persistence floating box */
-    .auth-box { 
-      position: absolute; bottom: 20px; right: 20px; background: #262626; 
-      padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; 
-      font-size: 11px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
-    .auth-box input { background: #121212; border: 1px solid #444; color: #fff; border-radius: 3px; padding: 2px 6px; width: 150px; outline: none; }
+        .token-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
 
-    /* Style overrides for Swagger response JSON */
-    .swagger-ui .microlight { background: #121212 !important; border-radius: 4px; border: 1px solid var(--border); }
-    .swagger-ui .parameter__name, .swagger-ui .response-col_description { color: #eee !important; font-size: 13px; }
-    .swagger-ui .response-col_status { color: var(--green); font-weight: 800; }
-    .swagger-ui .opblock-description-wrapper p { color: #888; }
-    
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
-  </style>
+        .btn-apply {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-apply:hover { transform: translateY(-1px); }
+
+        /* Swagger Container */
+        .swagger-container {
+            max-width: 1200px;
+            margin: 2rem auto 5rem;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        /* Swagger UI Overrides for Premium Standard Look */
+        .swagger-ui .topbar { display: none; }
+        .swagger-ui .info .title { font-family: 'Outfit', sans-serif !important; color: var(--text-main); font-size: 2.5rem; }
+        .swagger-ui .opblock { border-radius: 10px !important; margin-bottom: 12px; }
+        .swagger-ui .btn.authorize { background: var(--primary); color: white; border-color: var(--primary); border-radius: 6px; }
+        .swagger-ui select { border-radius: 6px; border: 1px solid #e2e8f0; }
+        
+        @media (max-width: 768px) {
+            header, .token-toolbar { padding: 1rem; flex-direction: column; align-items: stretch; gap: 1rem; }
+            .token-input { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <aside>
-    <div class="side-hdr">Collections</div>
-    <div class="side-item">📂 VetCentre API</div>
-    <div class="side-item active" style="padding-left: 32px;">
-      <span class="met-tag">POST</span> login
-    </div>
-    <div class="side-item" style="padding-left: 32px; color: #777;">
-       <span class="met-tag" style="color: #49cc90;">GET</span> get-profile
-    </div>
-    <div class="side-hdr" style="margin-top: 20px;">Support</div>
-    <div class="side-item">📞 Contact Support</div>
-  </aside>
-
-  <!-- Main Section -->
-  <main>
-    <header class="url-bar">
-      <div class="met-sel">POST</div>
-      <input type="text" class="url-in" value="{{URL}}/ClientHandler_RequestJson?company=VetCentre" readonly />
-      <button class="btn-send" onclick="document.querySelector('.btn.execute').click()">Send</button>
+    <header>
+        <div class="brand-area">
+            <div class="logo-box">V</div>
+            <div class="brand-text">VetCentre <span style="color:var(--primary)">API Docs</span></div>
+        </div>
+        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:500;">Version 1.0.0</div>
     </header>
 
-    <div class="content">
-      <div id="swagger-ui"></div>
+    <!-- Global Token Entry -->
+    <div class="token-toolbar">
+        <span class="token-label">Auth Token:</span>
+        <input type="password" id="globalToken" class="token-input" placeholder="Bearer Token (Paste here for persistence)">
+        <button onclick="applyToken()" class="btn-apply">Save Token</button>
+        <button onclick="clearToken()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.85rem;">Clear</button>
     </div>
-  </main>
 
-  <!-- Mini Auth Setting -->
-  <div class="auth-box">
-    Token: <input type="password" id="tk" placeholder="..." onchange="saveTk()">
-  </div>
+    <div class="swagger-container">
+        <div id="swagger-ui"></div>
+    </div>
 
-  <script src="dist/swagger-ui-bundle.js"></script>
-  <script src="dist/swagger-ui-standalone-preset.js"></script>
-  <script>
-    function saveTk() {
-      localStorage.setItem('bt_auth_token', document.getElementById('tk').value.trim());
-      window.BEARER_TOKEN = localStorage.getItem('bt_auth_token');
-    }
+    <script src="dist/swagger-ui-bundle.js"></script>
+    <script src="dist/swagger-ui-standalone-preset.js"></script>
+    <script>
+        // Load persist token
+        window.BT_AUTH = localStorage.getItem('v_auth') || "";
+        if (window.BT_AUTH) document.getElementById('globalToken').value = window.BT_AUTH;
 
-    window.onload = function() {
-      document.getElementById('tk').value = localStorage.getItem('bt_auth_token') || "";
-      window.BEARER_TOKEN = document.getElementById('tk').value;
-
-      window.ui = SwaggerUIBundle({
-        url: "openapi.yaml",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-        layout: "BaseLayout",
-        tryItOutEnabled: true,
-        requestInterceptor: (req) => {
-          if (window.BEARER_TOKEN) {
-            req.headers['Authorization'] = 'Bearer ' + window.BEARER_TOKEN.replace(/^Bearer\s+/i, '');
-          }
-          return req;
+        function applyToken() {
+            const val = document.getElementById('globalToken').value.trim();
+            window.BT_AUTH = val;
+            localStorage.setItem('v_auth', val);
+            alert('Token saved globally.');
         }
-      });
 
-      // Simple auto-expand loop
-      const itv = setInterval(() => {
-        const tag = document.querySelector('.opblock-tag');
-        const op = document.querySelector('.opblock-post');
-        if (tag && op) {
-          if (!tag.classList.contains('is-open')) tag.click();
-          if (!op.classList.contains('is-open')) op.querySelector('.opblock-summary').click();
-          if (op.classList.contains('is-open')) clearInterval(itv);
+        function clearToken() {
+            window.BT_AUTH = "";
+            localStorage.removeItem('v_auth');
+            document.getElementById('globalToken').value = "";
         }
-      }, 100);
-    };
-  </script>
+
+        window.onload = function() {
+            window.ui = SwaggerUIBundle({
+                url: "openapi.yaml",
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "BaseLayout",
+                tryItOutEnabled: true,
+                requestInterceptor: (req) => {
+                    if (window.BT_AUTH) {
+                        const token = window.BT_AUTH.replace(/^Bearer\s+/i, '');
+                        req.headers['Authorization'] = 'Bearer ' + token;
+                    }
+                    return req;
+                }
+            });
+        };
+    </script>
 </body>
 </html>
