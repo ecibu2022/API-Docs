@@ -3,253 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VetCentre API Docs</title>
+  <title>VetCentre | API Documentation</title>
   
-  <!-- Modern Typography (Roboto) -->
+  <!-- Postman Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
   
-  <!-- Swagger UI default styles -->
+  <!-- Swagger UI styles -->
   <link rel="stylesheet" href="dist/swagger-ui.css" />
   
   <style>
     :root {
-      --primary: #007bff;
-      --bg: #ffffff;
-      --sidebar-bg: #fff;
-      --border: #e6e6e6;
-      --text: #333;
-      --text-muted: #666;
+      --postman-orange: #FF6C37;
+      --postman-bg: #FFFFFF;
+      --postman-sidebar: #F9F9F9;
+      --postman-border: #EDEDED;
+      --postman-text: #212121;
+      --postman-muted: #6B6B6B;
     }
 
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--postman-bg);
+      color: var(--postman-text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* Fixed Top Nav (Swagger.io Style) */
-    .top-nav {
+    /* Top Nav */
+    header {
+      height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--postman-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 60px;
-      border-bottom: 1px solid var(--border);
       background: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      z-index: 100;
     }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .nav-logo {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #000;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-logo span {
-      background: #49cc90; /* Swagger Green */
-      color: white;
-      padding: 3px 8px;
+    .nav-left { display: flex; align-items: center; gap: 15px; }
+    .logo {
+      background: var(--postman-orange);
+      color: #fff;
+      width: 24px;
+      height: 24px;
       border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+    .brand-name { font-weight: 600; font-size: 0.9rem; }
+
+    /* Token Bar */
+    .token-bar {
+      height: 40px;
+      background: #fbfbfb;
+      border-bottom: 1px solid var(--postman-border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 10px;
       font-size: 0.8rem;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #555;
-    }
-
-    .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: #000; }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .btn-outline {
-      border: 1px solid var(--border);
-      padding: 6px 15px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
+    .token-bar span { color: var(--postman-muted); font-weight: 500; }
+    .token-input {
+      border: 1px solid var(--postman-border);
       background: #fff;
+      padding: 4px 10px;
+      border-radius: 3px;
+      width: 300px;
+      font-size: 0.8rem;
+      outline: none;
     }
-
-    .btn-filled {
-      background: #007bff;
-      color: white;
+    .token-input:focus { border-color: var(--postman-orange); }
+    .btn-save {
+      background: var(--postman-orange);
+      color: #fff;
       border: none;
-      padding: 8px 18px;
-      border-radius: 4px;
-      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 3px;
       font-weight: 600;
       cursor: pointer;
+      font-size: 0.75rem;
     }
 
-    /* Token Bar (Integrated but subtle) */
-    .token-section {
-      background: #f9f9f9;
-      padding: 8px 60px;
-      border-bottom: 1px solid var(--border);
+    /* Main Content Layout */
+    .postman-wrapper {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Sidebar */
+    .postman-sidebar {
+      width: 260px;
+      background: var(--postman-sidebar);
+      border-right: 1px solid var(--postman-border);
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    .sidebar-section { padding: 0 20px 10px; font-size: 0.75rem; font-weight: 700; color: var(--postman-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .sidebar-item {
       display: flex;
       align-items: center;
       gap: 10px;
+      padding: 8px 20px;
       font-size: 0.85rem;
-    }
-
-    .token-input {
-      border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 3px;
-      width: 350px;
-      outline: none;
-    }
-
-    .token-input:focus { border-color: #49cc90; }
-
-    /* Main Grid Layout */
-    .content-container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 40px;
-      padding: 0 60px;
-    }
-
-    /* Main Area */
-    .main-content {
-      padding-top: 40px;
-      min-width: 0;
-    }
-
-    /* Right Sidebar (Table of Contents) */
-    .toc-sidebar {
-      padding-top: 40px;
-      position: sticky;
-      top: 100px; /* Below Top Nav + Token Bar */
-      height: fit-content;
-    }
-
-    .toc-title {
-      font-size: 1.6rem;
-      font-weight: 400;
-      margin-bottom: 25px;
-      color: #333;
-    }
-
-    .toc-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      border-left: 1px solid #eee;
-    }
-
-    .toc-item {
-      padding: 4px 0 4px 20px;
-      font-size: 0.9rem;
-      color: #777;
+      color: var(--postman-text);
       text-decoration: none;
-      display: block;
-      transition: all 0.2s;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sidebar-item:hover { background: #EBEBEB; }
+    .sidebar-item.active { background: #EBEBEB; border-left: 3px solid var(--postman-orange); padding-left: 17px; }
+    .sidebar-item .method { font-size: 0.65rem; font-weight: 800; width: 35px; }
+    .sidebar-item .post { color: #FFB400; } /* Postman orange-yellow for POST */
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      background: #fff;
     }
 
-    .toc-item:hover { color: #000; border-left: 2px solid #000; padding-left: 19px; }
-    .toc-item.active { color: #000; font-weight: 600; border-left: 2px solid #000; padding-left: 19px; }
+    .postman-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
+    }
 
-    /* Swagger UI Integration */
-    #swagger-ui { padding-bottom: 100px; }
+    /* Swagger Overrides to look like Postman */
+    .swagger-ui { font-family: 'Inter', sans-serif !important; }
     .swagger-ui .topbar { display: none; }
-    .swagger-ui .info { margin-bottom: 0; }
-    .swagger-ui .info .title { font-size: 2.2rem; font-weight: 700; }
-    .swagger-ui .opblock { border-radius: 4px; box-shadow: none; border: 1px solid #e6e6e6; }
-    .swagger-ui .scheme-container { background: transparent; box-shadow: none; padding: 20px 0; border-bottom: 1px solid #eee; }
+    .swagger-ui .info .title { font-size: 2.2rem; font-weight: 700; color: #212121; }
+    .swagger-ui .info .description { color: #555; }
+    .swagger-ui .opblock { border-radius: 4px; border: 1px solid var(--postman-border); box-shadow: none; background: #fff; }
+    .swagger-ui .opblock-summary { border-bottom: 1px solid var(--postman-border); }
+    .swagger-ui .btn.authorize { color: var(--postman-orange); border-color: var(--postman-orange); }
+    .swagger-ui .btn.authorize:hover { background: var(--postman-orange); color: #fff; }
+    .swagger-ui .opblock.opblock-post { border-color: #FFB400; background: rgba(255,180,0,0.02); }
+    .swagger-ui .model-box { border-radius: 4px; border: 1px solid var(--postman-border); }
 
-    /* Mobile adjustments */
-    @media (max-width: 900px) {
-      .content-container { grid-template-columns: 100%; padding: 0 20px; }
-      .toc-sidebar { display: none; }
-      .top-nav { padding: 10px 20px; }
-      .token-section { padding: 8px 20px; flex-direction: column; align-items: stretch; }
-      .token-input { width: 100%; }
+    /* Mobile */
+    @media (max-width: 768px) {
+      .postman-sidebar { display: none; }
+      .token-input { width: 150px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Nav mimicking Swagger.io -->
-  <header class="top-nav">
+  <!-- Header -->
+  <header>
     <div class="nav-left">
-      <div class="nav-logo">
-        VetCentre <span>Documentation</span>
-      </div>
-      <nav class="nav-links">
-        <a href="#">Products</a>
-        <a href="#">Community</a>
-        <a href="#">Learn</a>
-        <a href="#">Resources</a>
-      </nav>
+      <div class="logo">P</div>
+      <div class="brand-name">VetCentre HR Training API</div>
+      <span style="font-size: 0.75rem; color: #999; margin-left: 10px;">Public Documentation</span>
     </div>
-    <div class="nav-right">
-      <button class="btn-outline">Sign In</button>
-      <button class="btn-filled">Get started</button>
-    </div>
+    <div style="font-size: 0.8rem; font-weight: 600; color: var(--postman-muted);">v1.0.0</div>
   </header>
 
-  <!-- Auth Bar -->
-  <div class="token-section">
-    <span style="font-weight: 600;">Token:</span>
-    <input type="password" id="tokenInput" class="token-input" placeholder="Paste your Bearer Token here...">
-    <button onclick="updateToken()" class="btn-outline" style="border-color: #49cc90; color: #49cc90; background: transparent;">Save</button>
-    <button onclick="clearToken()" style="background: none; border:none; color: #999; cursor:pointer;">Clear</button>
+  <!-- Persistent Token Access -->
+  <div class="token-bar">
+    <span>AUTH</span>
+    <input type="password" id="tokenInput" class="token-input" placeholder="Enter Bearer Token...">
+    <button onclick="updateToken()" class="btn-save">Set Token</button>
+    <button onclick="clearToken()" style="background:none; border:none; color:#999; cursor:pointer; font-size: 0.75rem;">Clear</button>
   </div>
 
-  <div class="content-container">
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <div id="swagger-ui"></div>
-    </main>
-
-    <!-- Right Sidebar (Table of Contents) -->
-    <aside class="toc-sidebar">
-      <div class="toc-title">Table of Contents</div>
-      <nav class="toc-list">
-        <a href="#" class="toc-item">Overview</a>
-        <a href="#" class="toc-item">Approaches to API</a>
-        <a href="#/Auth/post_ClientHandler_RequestJson" class="toc-item active">Core: Client Handler</a>
-        <a href="#" class="toc-item">Common Scenarios</a>
-        <a href="#" class="toc-item">OAuth Token Flow</a>
-        <a href="#" class="toc-item">OAS Generation</a>
-        <a href="#" class="toc-item">Documenting with OAS</a>
-        <a href="#" class="toc-item">API Design</a>
-      </nav>
+  <div class="postman-wrapper">
+    <!-- Postman Sidebar -->
+    <aside class="postman-sidebar">
+      <div class="sidebar-section">Collections</div>
+      <a href="#" class="sidebar-item active">
+        <span style="font-size: 1rem;">📁</span>
+        <span style="font-weight: 600;">OData Handlers</span>
+      </a>
+      <a href="#/Auth/post_ClientHandler_RequestJson" class="sidebar-item">
+        <span class="method post">POST</span>
+        <span>RequestJson</span>
+      </a>
+      
+      <div class="sidebar-section" style="margin-top: 20px;">Environment</div>
+      <div class="sidebar-item">
+        <span style="font-size: 1rem;">🌐</span>
+        <span>Production Environment</span>
+      </div>
     </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <div class="postman-container">
+        <div id="swagger-ui"></div>
+      </div>
+    </main>
   </div>
 
   <script src="dist/swagger-ui-bundle.js"></script>
   <script src="dist/swagger-ui-standalone-preset.js"></script>
   <script>
-    // Token Logic
+    // Persistence Logic
     window.BEARER_TOKEN = localStorage.getItem('bt_auth_token') || "";
     if (window.BEARER_TOKEN) {
       document.getElementById('tokenInput').value = window.BEARER_TOKEN;
@@ -259,7 +222,7 @@
       const val = document.getElementById('tokenInput').value.trim();
       window.BEARER_TOKEN = val;
       localStorage.setItem('bt_auth_token', val);
-      alert('Token applied successfully.');
+      alert('Token set as active Authorization header.');
     }
 
     function clearToken() {
