@@ -11,139 +11,150 @@
   
   <style>
     :root {
-      --bg-active-tab: #212121;
-      --bg-sidebar: #181818;
+      --bg-main: #212121;
+      --bg-side: #181818;
       --border: #333333;
-      --text-main: #e6e6e6;
-      --text-muted: #969696;
-      --postman-orange: #ff6c37;
-      --postman-blue: #097bed;
+      --text: #e6e6e6;
+      --muted: #969696;
+      --orange: #ff6c37;
+      --blue: #097bed;
     }
 
     body {
       margin: 0; padding: 0;
       font-family: 'Inter', sans-serif;
-      background: var(--bg-active-tab);
-      color: var(--text-main);
+      background: var(--bg-main);
+      color: var(--text);
       display: flex; height: 100vh; overflow: hidden;
     }
 
-    /* Sidebar (Simplified) */
-    .sidebar {
+    /* Sidebar */
+    aside {
       width: 260px;
-      background: var(--bg-sidebar);
+      background: var(--bg-side);
       border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
-      font-size: 12px;
+      font-size: 13px;
     }
 
-    .sidebar-title { padding: 16px; font-weight: 700; color: #999; font-size: 11px; text-transform: uppercase; }
-    .tree-item { display: flex; align-items: center; gap: 8px; padding: 10px 16px; cursor: pointer; color: #ccc; }
-    .tree-item.active { background: #262626; color: #fff; font-weight: 600; border-left: 2px solid var(--postman-orange); }
-    .post-tag { color: #ffb400; font-weight: 800; font-size: 9px; width: 32px; }
+    .sidebar-lbl { padding: 16px 16px 8px; font-weight: 700; color: #777; font-size: 11px; text-transform: uppercase; }
+    .item { display: flex; align-items: center; gap: 8px; padding: 10px 16px; cursor: pointer; color: #bbb; }
+    .item:hover { background: #262626; color: #fff; }
+    .item.active { background: #262626; color: #fff; font-weight: 600; border-left: 2px solid var(--orange); }
+    .method { color: #ffb400; font-weight: 800; font-size: 10px; width: 40px; }
 
-    /* Main Area */
-    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    /* Workspace */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     
-    /* Top Tabs */
-    .tabs { height: 36px; background: var(--bg-sidebar); display: flex; gap: 2px; padding: 0 8px; border-bottom: 1px solid var(--border); }
-    .tab { height: 35px; min-width: 120px; display: flex; align-items: center; gap: 8px; background: #222; padding: 0 12px; border-radius: 4px 4px 0 0; font-size: 11px; border: 1px solid var(--border); border-bottom: none; cursor: pointer; }
-    .tab.active { background: var(--bg-active-tab); border-top: 2px solid var(--postman-orange); }
+    .tab-hdr { height: 36px; background: var(--bg-side); display: flex; align-items: flex-end; padding: 0 8px; border-bottom: 1px solid var(--border); }
+    .tab { height: 32px; background: #222; border: 1px solid var(--border); border-bottom: none; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 11px; color: #888; border-radius: 4px 4px 0 0; margin-right: 4px; }
+    .tab.active { background: var(--bg-main); color: #fff; border-top: 2px solid var(--orange); }
 
-    /* Action Bar (Simplified) */
-    .action-bar { padding: 20px 24px; border-bottom: 1px solid var(--border); }
-    .path { font-size: 11px; color: #888; margin-bottom: 15px; }
-    .path span { color: #eee; font-weight: 600; }
+    .action-sect { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .crumbs { font-size: 11px; color: #888; margin-bottom: 12px; }
+    .crumbs b { color: #eee; font-weight: 600; }
     
-    .url-row { display: flex; gap: 10px; margin-bottom: 15px; }
-    .meth { color: #ffb400; font-weight: 800; padding: 0 12px; height: 32px; display: flex; align-items: center; background: rgba(255,180,0,0.1); border-radius: 4px; border: 1px solid rgba(255,180,0,0.2); font-size: 12px; }
-    .url { flex: 1; background: #1a1a1a; border: 1px solid #444; color: #fff; border-radius: 4px; padding: 0 12px; font-family: 'Fira Code', monospace; font-size: 13px; }
-    .send { background: var(--postman-blue); color: white; border: none; padding: 0 24px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+    .url-input-grp { display: flex; gap: 8px; height: 32px; }
+    .m-tag { color: #ffb400; font-weight: 800; background: rgba(255,180,0,0.1); padding: 0 12px; display: flex; align-items: center; border-radius: 4px; border: 1px solid rgba(255,180,0,0.2); font-size: 12px; }
+    .url-box { flex: 1; background: #1a1a1a; border: 1px solid #444; color: #fff; border-radius: 4px; padding: 0 12px; font-family: 'Fira Code', monospace; font-size: 13px; outline: none; }
+    .btn-snd { background: var(--blue); color: white; border: none; padding: 0 20px; font-weight: 600; border-radius: 4px; cursor: pointer; }
 
-    /* Controls Bar (Tabs + Env/Token) */
-    .controls { display: flex; justify-content: space-between; align-items: center; }
-    .req-tabs { display: flex; gap: 20px; font-size: 12px; }
-    .req-tab { padding: 8px 0; color: #888; cursor: pointer; border-bottom: 2px solid transparent; }
-    .req-tab.active { color: #eee; border-color: var(--postman-orange); font-weight: 600; }
+    .sub-tabs { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+    .st-list { display: flex; gap: 20px; }
+    .st-item { font-size: 12px; color: #888; cursor: pointer; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+    .st-item.active { color: #eee; border-color: var(--orange); font-weight: 600; }
     
-    .token-box { display: flex; align-items: center; gap: 8px; font-size: 11px; background: #262626; padding: 4px 10px; border: 1px solid #333; border-radius: 4px; }
-    .token-in { background: none; border: none; color: #eee; width: 150px; outline: none; }
+    .tk-bar { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #888; }
+    .tk-in { background: #262626; border: 1px solid #333; color: #eee; padding: 2px 8px; border-radius: 4px; outline: none; width: 140px; }
 
-    /* Content Area */
-    .body-editor { flex: 1; overflow-y: auto; padding: 0 24px 100px; }
+    .editor-wrap { flex: 1; overflow-y: auto; padding: 0 24px 100px; }
 
-    /* Swagger Minimalist Theme */
-    .swagger-ui .topbar, .swagger-ui .info, .swagger-ui .scheme-container, .swagger-ui .opblock-summary, .swagger-ui .btn.execute { display: none !important; }
-    .swagger-ui .opblock { border: none !important; box-shadow: none !important; background: transparent !important; }
-    .swagger-ui { background: var(--bg-active-tab); }
-    .swagger-ui table thead tr th, .swagger-ui .parameter__name, .swagger-ui .response-col_description { color: #eee !important; }
+    /* Hiding the "Auth" tag header and top info for a cleaner Postman look */
+    .swagger-ui .topbar, 
+    .swagger-ui .info, 
+    .swagger-ui .scheme-container, 
+    .swagger-ui .opblock .opblock-summary,
+    .swagger-ui .opblock-tag, /* Hide the "Auth" tag header */
+    .swagger-ui .btn.execute { display: none !important; }
+
+    .swagger-ui .opblock { border: none !important; box-shadow: none !important; background: transparent !important; margin: 0 !important; }
+    .swagger-ui .opblock-body { padding: 0 !important; }
+    .swagger-ui { background: transparent; }
+    
+    /* Syntax & Form colors for Dark Mode */
+    .swagger-ui .parameter__name, 
+    .swagger-ui table thead tr th, 
+    .swagger-ui .response-col_description,
+    .swagger-ui h4.opblock-title { color: #eee !important; font-size: 14px; }
     .swagger-ui .opblock-description-wrapper p { color: #999; }
     .swagger-ui .response-col_status { color: #49cc90; }
-    
-    /* Scrollbars (Postman style) */
+    .swagger-ui .btn.try-out__btn { display: none; } /* Hide Try it out as it's always on */
+    .swagger-ui .responses-inner h4, .swagger-ui .responses-inner h5 { color: #eee; }
+
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-title">Collections</div>
-    <div class="tree-item">📂 VetCentre</div>
-    <div class="tree-item active" style="padding-left:32px;">
-      <span class="post-tag">POST</span> login
+  <aside>
+    <div class="sidebar-lbl">Collections</div>
+    <div class="item">📂 VetCentre</div>
+    <div class="item active" style="padding-left:32px;">
+      <span class="method">POST</span> login
     </div>
-    <div class="sidebar-title" style="margin-top:20px;">Environments</div>
-    <div class="tree-item">🌐 Business Central</div>
+    <div class="sidebar-lbl" style="margin-top:20px;">Environments</div>
+    <div class="item">🌐 Business Central</div>
   </aside>
 
-  <!-- Main Area -->
-  <main class="main">
-    <header class="tabs">
-      <div class="tab active"><span style="color:#ffb400; font-weight:900; font-size:9px;">POST</span> login</div>
-      <div class="tab"><span>+</span></div>
+  <main>
+    <header class="tab-hdr">
+      <div class="tab active"><span style="color:#ffb400; font-weight:800; font-size:9px;">POST</span> login</div>
+      <div class="tab">+</div>
     </header>
 
-    <div class="action-bar">
-      <div class="path">VetCentre / auth / <span>login</span></div>
-      <div class="url-row">
-        <div class="meth">POST</div>
-        <input type="text" class="url" value="{{URL}}/ClientHandler_RequestJson?company=VetCentre" />
-        <button class="send" onclick="document.querySelector('.btn.execute').click()">Send</button>
+    <div class="action-sect">
+      <div class="crumbs">VetCentre / auth / <b>login</b></div>
+      <div class="url-input-grp">
+        <div class="m-tag">POST</div>
+        <input type="text" class="url-box" id="urlBox" value="{{URL}}/ClientHandler_RequestJson?company=VetCentre" />
+        <button class="btn-snd" onclick="runReq()">Send</button>
       </div>
-      <div class="controls">
-        <div class="req-tabs">
-          <div class="req-tab">Params</div>
-          <div class="req-tab">Authorization</div>
-          <div class="req-tab active">Body <span style="background:#ff6c37; width:6px; height:6px; border-radius:50%; display:inline-block; margin-left:4px;"></span></div>
-          <div class="req-tab">Headers</div>
-          <div class="req-tab">Settings</div>
+      <div class="sub-tabs">
+        <div class="st-list">
+          <div class="st-item">Params</div>
+          <div class="st-item">Authorization</div>
+          <div class="st-item active">Body <span style="background:var(--orange); width:5px; height:5px; border-radius:50%; display:inline-block; margin-bottom:2px;"></span></div>
+          <div class="st-item">Headers</div>
         </div>
-        <div class="token-box">
-          <span style="color:#888;">Token:</span>
-          <input type="password" id="tokenIn" class="token-in" placeholder="..." onchange="saveTok()">
+        <div class="tk-bar">
+          Token: <input type="password" id="tkInput" class="tk-in" placeholder="..." onchange="setTk()">
         </div>
       </div>
     </div>
 
-    <section class="body-editor">
+    <div class="editor-wrap">
       <div id="swagger-ui"></div>
-    </section>
+    </div>
   </main>
 
   <script src="dist/swagger-ui-bundle.js"></script>
   <script src="dist/swagger-ui-standalone-preset.js"></script>
   <script>
-    function saveTok() {
-      localStorage.setItem('bt_auth_token', document.getElementById('tokenIn').value.trim());
+    function setTk() {
+      localStorage.setItem('bt_auth_token', document.getElementById('tkInput').value.trim());
       window.BEARER_TOKEN = localStorage.getItem('bt_auth_token');
     }
 
+    function runReq() {
+      const btn = document.querySelector('.btn.execute');
+      if (btn) btn.click();
+    }
+
     window.onload = function() {
-      document.getElementById('tokenIn').value = localStorage.getItem('bt_auth_token') || "";
-      window.BEARER_TOKEN = document.getElementById('tokenIn').value;
-      
+      document.getElementById('tkInput').value = localStorage.getItem('bt_auth_token') || "";
+      window.BEARER_TOKEN = document.getElementById('tkInput').value;
+
       window.ui = SwaggerUIBundle({
         url: "openapi.yaml",
         dom_id: '#swagger-ui',
@@ -158,7 +169,28 @@
           return req;
         }
       });
-      setTimeout(() => { if (!document.querySelector('.is-open')) document.querySelector('.opblock-summary').click(); }, 300);
+
+      // Crucial: Auto-expand the Tag AND the Operation AND enable Try-it-out mode internal state
+      const checkReady = setInterval(() => {
+        const tag = document.querySelector('.opblock-tag');
+        const op = document.querySelector('.opblock-post');
+        
+        if (tag && op) {
+          // 1. Expand the tag if needed
+          if (!tag.classList.contains('is-open')) tag.click();
+          
+          // 2. Expand the operation if needed
+          if (!op.classList.contains('is-open')) {
+            op.querySelector('.opblock-summary').click();
+          }
+          
+          // 3. Clear interval once expanded
+          if (op.classList.contains('is-open')) {
+             console.log("UI Expanded successfully");
+             clearInterval(checkReady);
+          }
+        }
+      }, 100);
     };
   </script>
 </body>
