@@ -1,64 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>VetCentre API | OpenAPI</title>
-  <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
-  <link rel="icon" type="image/png" href="dist/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="dist/favicon-16x16.png" sizes="16x16" />
-  <style>
-    html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
-    *, *:before, *:after { box-sizing: inherit; }
-    body { margin: 0; background: #fafafa; }
-    
-    /* Token Persistence bar - keeping functionally but making it look standard */
-    .token-bar { background: #333; padding: 10px 40px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: white; font-family: sans-serif; font-size: 13px; }
-    .token-bar input { background: #444; border: 1px solid #555; color: #fff; padding: 4px 8px; border-radius: 4px; width: 300px; outline: none; }
-    .token-bar button { background: #007bff; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <title>VetCentre | API Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" />
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --bg-deep: #0f172a;
+            --bg-card: #1e293b;
+            --text-gold: #f59e0b;
+            --text-main: #f8fafc;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Token Bar */
+        .header-glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 3rem;
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
+        .brand span { color: var(--primary); }
+
+        .token-grp { 
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 50px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+        }
+        .token-grp label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .token-grp input { 
+            background: transparent; border: none; color: #fff; padding: 4px; width: 220px; 
+            font-family: 'Fira Code', monospace; outline: none; font-size: 12px;
+        }
+        .btn-glow {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white; border: none; padding: 6px 20px; border-radius: 50px;
+            font-weight: 700; font-size: 12px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: 0.3s;
+        }
+        .btn-glow:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        /* Swagger UI Custom Styles (Dark Theme Upgrade) */
+        .swagger-ui { filter: invert(88%) hue-rotate(180deg) brightness(1.1); max-width: 1200px; margin: 2rem auto; border-radius: 16px; overflow: hidden; padding: 2rem; background: #fff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        
+        /* Un-invert images and code blocks for readability */
+        .swagger-ui .topbar, .swagger-ui .info, .swagger-ui .opblock, .swagger-ui .btn, .swagger-ui .scheme-container { filter: invert(0) !important; }
+        
+        /* Better scrollbars */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
+
+        @media (max-width: 768px) {
+            .header-glass { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .token-grp input { width: 100%; }
+        }
+    </style>
 </head>
 <body>
-  <div class="token-bar">
-    <span>Bearer Token:</span>
-    <input type="password" id="tkInput" placeholder="Session Persistence Token...">
-    <button onclick="saveTk()">Save Token</button>
-  </div>
-  
-  <div id="swagger-ui"></div>
 
-  <script src="dist/swagger-ui-bundle.js"></script>
-  <script src="dist/swagger-ui-standalone-preset.js"></script>
-  <script>
-    function saveTk() {
-      localStorage.setItem('v_auth', document.getElementById('tkInput').value.trim());
-      alert("Token saved. Swagger will now use this for all requests.");
-    }
+    <header class="header-glass">
+        <div class="brand">VetCentre <span>API Docs</span></div>
+        <div class="token-grp">
+            <label>Bearer Token</label>
+            <input type="password" id="tk" placeholder="Session Persistence Token...">
+            <button class="btn-glow" onclick="save()">SAVE</button>
+        </div>
+    </header>
 
-    window.onload = function() {
-      document.getElementById('tkInput').value = localStorage.getItem('v_auth') || "";
+    <div class="swagger-ui">
+        <div id="swagger-ui"></div>
+    </div>
 
-      window.ui = SwaggerUIBundle({
-        url: "openapi.yaml",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
-        layout: "StandaloneLayout",
-        tryItOutEnabled: true,
-        requestInterceptor: (req) => {
-          const stored = localStorage.getItem('v_auth');
-          if (stored) {
-            req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
-          }
-          return req;
+    <script src="dist/swagger-ui-bundle.js"></script>
+    <script src="dist/swagger-ui-standalone-preset.js"></script>
+    <script>
+        function save() {
+            localStorage.setItem('v_auth', document.getElementById('tk').value.trim());
+            alert('Settings Saved Successfully');
         }
-      });
-    };
-  </script>
+
+        window.onload = function() {
+            document.getElementById('tk').value = localStorage.getItem('v_auth') || "";
+
+            window.ui = SwaggerUIBundle({
+                url: "openapi.yaml",
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "BaseLayout",
+                tryItOutEnabled: true,
+                requestInterceptor: (req) => {
+                    const stored = localStorage.getItem('v_auth');
+                    if (stored) {
+                        req.headers['Authorization'] = 'Bearer ' + stored.replace(/^Bearer\s+/i, '');
+                    }
+                    return req;
+                }
+            });
+        };
+    </script>
 </body>
 </html>
